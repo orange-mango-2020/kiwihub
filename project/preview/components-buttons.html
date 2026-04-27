@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html><head><meta charset="UTF-8">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Plus+Jakarta+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Plus Jakarta Sans', sans-serif; background: #f7f5f0; padding: 20px; display: flex; flex-direction: column; gap: 16px; }
+  .row { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; }
+  .label { font-size: 10px; font-weight: 600; color: #9ca3af; text-transform: uppercase; letter-spacing: 0.5px; width: 100%; }
+  button { cursor: default; font-family: 'Plus Jakarta Sans', sans-serif; }
+</style>
+</head><body>
+  <div class="label">Primary — Rounded</div>
+  <div class="row">
+    <button style="background:#1a4a2e;color:#fff;border:none;border-radius:12px;padding:13px 24px;font-family:'Syne',sans-serif;font-size:14px;font-weight:700;">Add to Cart</button>
+    <button style="background:#2d6a4f;color:#fff;border:none;border-radius:12px;padding:13px 24px;font-family:'Syne',sans-serif;font-size:14px;font-weight:700;">Hover State</button>
+    <button style="background:#40916c;color:#fff;border:none;border-radius:12px;padding:13px 24px;font-family:'Syne',sans-serif;font-size:14px;font-weight:700;">Processing…</button>
+  </div>
+
+  <div class="label">Secondary — Outline</div>
+  <div class="row">
+    <button style="background:#fff;color:#1a4a2e;border:2.5px solid #1a4a2e;border-radius:12px;padding:12px 24px;font-family:'Syne',sans-serif;font-size:14px;font-weight:700;">⚡ Buy Now</button>
+    <button style="background:#f0faf2;color:#1a4a2e;border:2.5px solid #1a4a2e;border-radius:12px;padding:12px 24px;font-family:'Syne',sans-serif;font-size:14px;font-weight:700;">Hover State</button>
+  </div>
+
+  <div class="label">Pill — Hero / Cart</div>
+  <div class="row">
+    <button style="background:#1a4a2e;color:#fff;border:none;border-radius:30px;padding:12px 28px;font-family:'Syne',sans-serif;font-size:14px;font-weight:700;">Shop Now →</button>
+    <button style="background:#1a4a2e;color:#fff;border:none;border-radius:24px;padding:9px 18px;font-family:'Plus Jakarta Sans',sans-serif;font-size:13px;font-weight:600;display:flex;align-items:center;gap:6px;">🛒 Cart <span style="background:#5cb85c;border-radius:10px;padding:1px 7px;font-size:11px;">3</span></button>
+  </div>
+
+  <div class="label">Small / Ghost</div>
+  <div class="row">
+    <button style="background:#f7f5f0;color:#374151;border:none;border-radius:8px;padding:7px 14px;font-family:'Plus Jakarta Sans',sans-serif;font-size:12px;font-weight:600;">View Details ▼</button>
+    <button style="background:none;color:#40916c;border:none;font-family:'Plus Jakarta Sans',sans-serif;font-size:12px;font-weight:600;">Edit →</button>
+    <button style="background:none;color:#dc2626;border:none;font-family:'Plus Jakarta Sans',sans-serif;font-size:12px;font-weight:600;">Remove</button>
+    <button style="background:none;color:#6b7280;border:none;font-family:'Plus Jakarta Sans',sans-serif;font-size:11px;font-weight:600;">Save for later</button>
+  </div>
+</body></html>

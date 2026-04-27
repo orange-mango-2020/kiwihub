@@ -1,0 +1,820 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>KiwiHub UI Kit</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<script type="text/babel" src="Icons.jsx"></script>
+<script type="text/babel" src="Navbar.jsx"></script>
+<script type="text/babel" src="ProductCard.jsx"></script>
+<script type="text/babel" src="Footer.jsx"></script>
+<script type="text/babel" src="ContactPage.jsx"></script>
+<script type="text/babel" src="FaqsPage.jsx"></script>
+<script type="text/babel" src="ReturnsPage.jsx"></script>
+<script type="text/babel" src="AboutPage.jsx"></script>
+<script type="text/babel" src="TrackingPage.jsx"></script>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Plus Jakarta Sans', sans-serif; background: #f4f1e8; }
+::-webkit-scrollbar { width: 4px; } ::-webkit-scrollbar-thumb { background: #c8f5d8; border-radius: 4px; }
+input, select, textarea, button { font-family: inherit; }
+
+/* ── KiwiHub Kiwi-refreshed palette ── */
+:root {
+  --kh-deep:   #1a4a2e;
+  --kh-mid:    #2e8b57;
+  --kh-bright: #52b256;
+  --kh-hover:  #1f5c38;
+  --kh-gold:   #c8971f;
+  --kh-gold-bg:#fdf6e3;
+  --kh-bg:     #f4f1e8;
+  --kh-card:   #ffffff;
+  --kh-mint:   #c8f5d8;
+  --kh-light:  #f0faf2;
+  --kh-tint:   #e8f5e9;
+  --kh-border: #e5e7eb;
+}
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script type="text/babel">
+
+/* ── SHARED DATA ─────────────────────────────────────────────────── */
+const C = '#1a4a2e', M = '#2e8b57', L = '#52b256', G = '#c8971f';
+
+const PRODUCTS = [
+  { id:1, name:'Lenovo IdeaPad 3', brand:'Lenovo', category:'Laptops', price:8999, originalPrice:10499, image:'💻', badge:'HOT DEAL', rating:4.5, reviews:128 },
+  { id:2, name:'HP 250 G9 Laptop', brand:'HP', category:'Laptops', price:7499, originalPrice:8999, image:'💻', rating:4.3, reviews:89 },
+  { id:3, name:'Dell Inspiron 15', brand:'Dell', category:'Laptops', price:11999, originalPrice:13499, image:'💻', rating:4.6, reviews:74 },
+  { id:4, name:'Wireless Mouse', brand:'Logitech', category:'PC Accessories', price:349, originalPrice:499, image:'🖱️', rating:4.4, reviews:167 },
+  { id:5, name:'Samsung USB-C Hub', brand:'Samsung', category:'PC Accessories', price:599, originalPrice:799, image:'🔌', rating:4.2, reviews:54 },
+  { id:6, name:'Mechanical Keyboard', brand:'Logitech', category:'PC Accessories', price:899, originalPrice:1199, image:'⌨️', badge:'HOT DEAL', rating:4.7, reviews:203 },
+  { id:7, name:'iPhone 15 Case', brand:'Samsung', category:'Phone Accessories', price:199, originalPrice:299, image:'📱', rating:4.1, reviews:88 },
+  { id:8, name:'Gaming Headset', brand:'HyperX', category:'Phone Accessories', price:1299, originalPrice:1599, image:'🎧', rating:4.5, reviews:76 },
+  { id:9, name:'Cotton Duvet Set', brand:'HomeEssentials', category:'Homewear', price:899, originalPrice:1199, image:'🛏️', rating:4.3, reviews:62 },
+  { id:10, name:'Throw Blanket Set', brand:'HomeEssentials', category:'Homewear', price:449, originalPrice:599, image:'🧶', rating:4.5, reviews:41 },
+  { id:11, name:'Desk Lamp', brand:'Philips', category:'Homewear', price:349, originalPrice:499, image:'💡', rating:4.0, reviews:33 },
+];
+
+const CATEGORIES = ['All','Laptops','PC Accessories','Phone Accessories','Homewear'];
+
+const REVIEWS = [
+  { name:'Sipho M.', rating:5, date:'12 Mar 2026', verified:true, comment:'Excellent! Arrived in 2 days via Courier Guy. Very fast, great screen. Highly recommend KiwiHub.' },
+  { name:'Fatima A.', rating:4, date:'28 Feb 2026', verified:true, comment:'Really happy with this purchase. Battery lasts all day. Only wish it had a backlit keyboard.' },
+  { name:'Lungelo D.', rating:5, date:'15 Feb 2026', verified:true, comment:'Best price in South Africa. Packaging was perfect. Will definitely order again.' },
+  { name:'Priya N.', rating:4, date:'3 Feb 2026', verified:false, comment:'Good performance for the price. Delivery took 3 days to KZN.' },
+];
+
+/* ── STARS ───────────────────────────────────────────────────────── */
+function Stars({ rating, size=12 }) {
+  return (
+    <span style={{ display:'inline-flex', gap:'2px' }}>
+      {[1,2,3,4,5].map(i =>
+        <Icon key={i} name={i <= Math.floor(rating) ? 'star-filled' : 'star'} size={size}
+          color={i <= Math.floor(rating) ? '#f59e0b' : '#d1d5db'} />
+      )}
+    </span>
+  );
+}
+
+/* ── HOME PAGE ───────────────────────────────────────────────────── */
+function HomePage({ onNavigate, onAddToCart }) {
+  const cats = [
+    { label:'Laptops', icon:'💻', cat:'Laptops' },
+    { label:'PC Accessories', icon:'🖥️', cat:'PC Accessories' },
+    { label:'Phone Accessories', icon:'📱', cat:'Phone Accessories' },
+    { label:'Homewear', icon:'🏠', cat:'Homewear' },
+  ];
+  const featured = PRODUCTS.slice(0, 4);
+  const trust = [
+    { icon:'truck', title:'Free Delivery', desc:'Orders over R750 nationwide' },
+    { icon:'lock', title:'Secure Payment', desc:'PayFast — Cards, EFT, SnapScan' },
+    { icon:'rotate-ccw', title:'30-Day Returns', desc:'Hassle-free policy' },
+    { icon:'shield', title:'1-Year Warranty', desc:'On all electronics' },
+    { icon:'phone', title:'SA-Based Support', desc:'Mon–Fri 8am–5pm' },
+  ];
+
+  return (
+    <div>
+      {/* Hero */}
+      <div style={{ background:`linear-gradient(135deg,${C},${M})`, color:'#fff', padding:'80px 24px', textAlign:'center', position:'relative', overflow:'hidden' }}>
+        <div style={{ position:'absolute', top:-60, right:-60, width:240, height:240, background:'rgba(255,255,255,0.04)', borderRadius:'50%' }} />
+        <div style={{ position:'absolute', bottom:-80, left:-40, width:200, height:200, background:'rgba(255,255,255,0.04)', borderRadius:'50%' }} />
+        <div style={{ position:'relative', maxWidth:'680px', margin:'0 auto' }}>
+          <div style={{ display:'inline-flex', alignItems:'center', gap:'8px', background:'rgba(255,255,255,0.12)', borderRadius:'20px', padding:'6px 16px', fontSize:'12px', fontFamily:"'Plus Jakarta Sans', sans-serif", fontWeight:600, color:'#c8f5d8', marginBottom:'20px', letterSpacing:'0.5px' }}>
+            <span style={{ width:'7px', height:'7px', background:L, borderRadius:'50%', display:'inline-block' }} /> South Africa's Fresh Online Store
+          </div>
+          <h1 style={{ fontFamily:"'Syne', sans-serif", fontWeight:800, fontSize:'52px', lineHeight:1.05, marginBottom:'18px', letterSpacing:'-1px' }}>Premium Tech &amp;<br/>Home Essentials</h1>
+          <p style={{ fontFamily:"'Plus Jakarta Sans', sans-serif", fontSize:'16px', opacity:0.85, lineHeight:1.7, marginBottom:'32px' }}>Delivered to every corner of South Africa via The Courier Guy.<br/>Secure checkout with PayFast.</p>
+          <div style={{ display:'flex', gap:'12px', justifyContent:'center' }}>
+            <button onClick={() => onNavigate('shop')} style={{ background:'#fff', color:C, border:'none', borderRadius:'30px', padding:'14px 32px', fontFamily:"'Syne', sans-serif", fontWeight:800, fontSize:'15px', cursor:'pointer', display:'flex', alignItems:'center', gap:'8px' }}>
+              <Icon name="store" size={16} color={C} /> Shop Now
+            </button>
+            <button onClick={() => onNavigate('about')} style={{ background:'transparent', color:'#fff', border:'2px solid rgba(255,255,255,0.45)', borderRadius:'30px', padding:'14px 28px', fontFamily:"'Syne', sans-serif", fontWeight:700, fontSize:'15px', cursor:'pointer' }}>
+              Our Story
+            </button>
+          </div>
+          <div style={{ display:'flex', justifyContent:'center', gap:'24px', marginTop:'28px', flexWrap:'wrap' }}>
+            {['Free delivery over R750','PayFast secured','30-day returns'].map(t => (
+              <span key={t} style={{ fontFamily:"'Plus Jakarta Sans', sans-serif", fontSize:'12px', color:'#c8f5d8', display:'flex', alignItems:'center', gap:'5px' }}>
+                <Icon name="check" size={12} color="#c8f5d8" /> {t}
+              </span>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* Categories */}
+      <div style={{ maxWidth:'1200px', margin:'0 auto', padding:'44px 24px 0' }}>
+        <div style={{ display:'flex', justifyContent:'space-between', alignItems:'center', marginBottom:'20px' }}>
+          <h2 style={{ fontFamily:"'Syne', sans-serif", fontWeight:800, fontSize:'22px', color:C }}>Shop by Category</h2>
+        </div>
+        <div style={{ display:'grid', gridTemplateColumns:'repeat(4,1fr)', gap:'14px' }}>
+          {cats.map(cat => (
+            <button key={cat.label} onClick={() => onNavigate('shop', { category: cat.cat })}
+              style={{ background:'#fff', border:'2px solid var(--kh-border)', borderRadius:'16px', padding:'28px 16px', display:'flex', flexDirection:'column', alignItems:'center', gap:'10px', cursor:'pointer', transition:'all 0.2s', boxShadow:'0 2px 8px rgba(0,0,0,0.04)', textAlign:'center' }}
+              onMouseEnter={e => { e.currentTarget.style.borderColor=C; e.currentTarget.style.transform='translateY(-4px)'; e.currentTarget.style.boxShadow='0 8px 24px rgba(0,0,0,0.08)'; }}
+              onMouseLeave={e => { e.currentTarget.style.borderColor='var(--kh-border)'; e.currentTarget.style.transform='translateY(0)'; e.currentTarget.style.boxShadow='0 2px 8px rgba(0,0,0,0.04)'; }}>
+              <span style={{ fontSize:'36px' }}>{cat.icon}</span>
+              <span style={{ fontFamily:"'Syne', sans-serif", fontWeight:700, fontSize:'13px', color:C }}>{cat.label}</span>
+            </button>
+          ))}
+        </div>
+      </div>
+
+      {/* Featured */}
+      <div style={{ maxWidth:'1200px', margin:'0 auto', padding:'40px 24px 0' }}>
+        <div style={{ display:'flex', justifyContent:'space-between', alignItems:'center', marginBottom:'20px' }}>
+          <h2 style={{ fontFamily:"'Syne', sans-serif", fontWeight:800, fontSize:'22px', color:C }}>Featured Products</h2>
+          <button onClick={() => onNavigate('shop')} style={{ background:'none', border:'none', color:M, fontFamily:"'Plus Jakarta Sans', sans-serif", fontWeight:600, fontSize:'13px', cursor:'pointer', display:'flex', alignItems:'center', gap:'4px' }}>
+            View all <Icon name="arrow-right" size={14} color={M} />
+          </button>
+        </div>
+        <div style={{ display:'grid', gridTemplateColumns:'repeat(4,1fr)', gap:'14px' }}>
+          {featured.map(p => <KHProductCard key={p.id} product={p} onAddToCart={onAddToCart} onNavigate={onNavigate} />)}
+        </div>
+      </div>
+
+      {/* Gold promo banner */}
+      <div style={{ maxWidth:'1200px', margin:'32px auto 0', padding:'0 24px' }}>
+        <div style={{ background:`linear-gradient(135deg,${G},#e0a820)`, borderRadius:'18px', padding:'28px 36px', display:'flex', justifyContent:'space-between', alignItems:'center', flexWrap:'wrap', gap:'16px' }}>
+          <div>
+            <div style={{ fontFamily:"'Syne', sans-serif", fontWeight:800, fontSize:'20px', color:'#fff', marginBottom:'4px' }}>🏷️ Coupon Code: KIWI10</div>
+            <div style={{ fontFamily:"'Plus Jakarta Sans', sans-serif", fontSize:'13px', color:'rgba(255,255,255,0.85)' }}>Get 10% off your first order. No minimum spend.</div>
+          </div>
+          <button onClick={() => onNavigate('shop')} style={{ background:'#fff', color:G, border:'none', borderRadius:'12px', padding:'12px 24px', fontFamily:"'Syne', sans-serif", fontWeight:800, fontSize:'14px', cursor:'pointer' }}>Shop Now →</button>
+        </div>
+      </div>
+
+      {/* Trust strip */}
+      <div style={{ background:'#fff', borderTop:'1px solid var(--kh-border)', borderBottom:'1px solid var(--kh-border)', marginTop:'40px', padding:'24px' }}>
+        <div style={{ maxWidth:'1200px', margin:'0 auto', display:'flex', justifyContent:'space-around', flexWrap:'wrap', gap:'20px' }}>
+          {trust.map(b => (
+            <div key={b.title} style={{ display:'flex', alignItems:'center', gap:'12px' }}>
+              <div style={{ width:'38px', height:'38px', background:'#f0faf2', borderRadius:'10px', display:'flex', alignItems:'center', justifyContent:'center', flexShrink:0 }}>
+                <Icon name={b.icon} size={18} color={C} />
+              </div>
+              <div>
+                <div style={{ fontFamily:"'Syne', sans-serif", fontWeight:700, fontSize:'13px', color:C }}>{b.title}</div>
+                <div style={{ fontFamily:"'Plus Jakarta Sans', sans-serif", fontSize:'11px', color:'#6b7280' }}>{b.desc}</div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* ── SHOP PAGE ───────────────────────────────────────────────────── */
+function ShopPage({ onNavigate, onAddToCart, initialCategory }) {
+  const [activeCat, setActiveCat] = React.useState(initialCategory || 'All');
+  const [sort, setSort] = React.useState('featured');
+  const [search, setSearch] = React.useState('');
+  const [priceMax, setPriceMax] = React.useState(15000);
+
+  React.useEffect(() => { if (initialCategory) setActiveCat(initialCategory); }, [initialCategory]);
+
+  const filtered = PRODUCTS
+    .filter(p => activeCat === 'All' || p.category === activeCat)
+    .filter(p => p.name.toLowerCase().includes(search.toLowerCase()) || p.brand.toLowerCase().includes(search.toLowerCase()))
+    .filter(p => p.price <= priceMax);
+
+  const sorted = [...filtered].sort((a,b) => {
+    if (sort==='price-asc') return a.price - b.price;
+    if (sort==='price-desc') return b.price - a.price;
+    if (sort==='rating') return b.rating - a.rating;
+    return 0;
+  });
+
+  return (
+    <div style={{ maxWidth:'1200px', margin:'0 auto', padding:'24px' }}>
+      <div style={{ fontFamily:"'Plus Jakarta Sans', sans-serif", fontSize:'12px', color:'#6b7280', marginBottom:'20px', display:'flex', alignItems:'center', gap:'6px' }}>
+        <span style={{ color:M, cursor:'pointer' }} onClick={() => onNavigate('home')}>Home</span>
+        <Icon name="chevron-right" size={12} color="#9ca3af" />
+        <span style={{ color:C, fontWeight:600 }}>Shop</span>
+      </div>
+
+      <div style={{ display:'flex', gap:'20px', alignItems:'flex-start' }}>
+        {/* Sidebar filters */}
+        <div style={{ width:'200px', flexShrink:0 }}>
+          <div style={{ background:'#fff', borderRadius:'16px', padding:'18px', boxShadow:'0 2px 8px rgba(0,0,0,0.06)', marginBottom:'12px' }}>
+            <div style={{ fontFamily:"'Syne', sans-serif", fontWeight:700, fontSize:'13px', color:C, marginBottom:'12px' }}>Categories</div>
+            {CATEGORIES.map(cat => (
+              <button key={cat} onClick={() => setActiveCat(cat)}
+                style={{ width:'100%', display:'flex', alignItems:'center', justifyContent:'space-between', padding:'8px 10px', borderRadius:'8px', border:'none', background: activeCat===cat ? '#f0faf2' : 'transparent', color: activeCat===cat ? C : '#374151', fontFamily:"'Plus Jakarta Sans', sans-serif", fontSize:'12px', fontWeight: activeCat===cat ? 700 : 500, cursor:'pointer', marginBottom:'2px', textAlign:'left' }}>
+                {cat}
+                <span style={{ fontFamily:"'Plus Jakarta Sans', sans-serif", fontSize:'10px', color:'#9ca3af' }}>
+                  {cat==='All' ? PRODUCTS.length : PRODUCTS.filter(p=>p.category===cat).length}
+                </span>
+              </button>
+            ))}
+          </div>
+          <div style={{ background:'#fff', borderRadius:'16px', padding:'18px', boxShadow:'0 2px 8px rgba(0,0,0,0.06)' }}>
+            <div style={{ fontFamily:"'Syne', sans-serif", fontWeight:700, fontSize:'13px', color:C, marginBottom:'12px' }}>Max Price</div>
+            <div style={{ fontFamily:"'Syne', sans-serif", fontWeight:800, fontSize:'16px', color:C, marginBottom:'8px' }}>R{priceMax.toLocaleString()}</div>
+            <input type="range" min={200} max={15000} step={500} value={priceMax} onChange={e => setPriceMax(+e.target.value)}
+              style={{ width:'100%', accentColor:C }} />
+            <div style={{ display:'flex', justifyContent:'space-between', marginTop:'4px' }}>
+              <span style={{ fontFamily:"'Plus Jakarta Sans', sans-serif", fontSize:'10px', color:'#9ca3af' }}>R200</span>
+              <span style={{ fontFamily:"'Plus Jakarta Sans', sans-serif", fontSize:'10px', color:'#9ca3af' }}>R15,000</span>
+            </div>
+          </div>
+        </div>
+
+        {/* Main */}
+        <div style={{ flex:1 }}>
+          <div style={{ display:'flex', justifyContent:'space-between', alignItems:'center', marginBottom:'16px', flexWrap:'wrap', gap:'10px' }}>
+            <h1 style={{ fontFamily:"'Syne', sans-serif", fontWeight:800, fontSize:'24px', color:C }}>
+              {activeCat === 'All' ? 'All Products' : activeCat}
+            </h1>
+            <div style={{ display:'flex', gap:'10px', alignItems:'center' }}>
+              <div style={{ position:'relative' }}>
+                <input value={search} onChange={e => setSearch(e.target.value)} placeholder="Search…"
+                  style={{ padding:'8px 36px 8px 12px', borderRadius:'20px', border:'2px solid #e8f5e9', background:'#f7fdf8', fontSize:'12px', color:C, outline:'none', width:'160px' }} />
+                <span style={{ position:'absolute', right:'10px', top:'50%', transform:'translateY(-50%)', display:'flex' }}>
+                  <Icon name="search" size={14} color={M} />
+                </span>
+              </div>
+              <select value={sort} onChange={e => setSort(e.target.value)}
+                style={{ padding:'8px 12px', borderRadius:'8px', border:'2px solid var(--kh-border)', fontSize:'12px', background:'white', color:'#374151', outline:'none' }}>
+                <option value="featured">Featured</option>
+                <option value="price-asc">Price ↑</option>
+                <option value="price-desc">Price ↓</option>
+                <option value="rating">Best Rated</option>
+              </select>
+            </div>
+          </div>
+          <div style={{ fontFamily:"'Plus Jakarta Sans', sans-serif", fontSize:'12px', color:'#6b7280', marginBottom:'14px' }}>
+            {sorted.length} product{sorted.length!==1?'s':''} found
+          </div>
+          {sorted.length > 0 ? (
+            <div style={{ display:'grid', gridTemplateColumns:'repeat(3,1fr)', gap:'14px' }}>
+              {sorted.map(p => <KHProductCard key={p.id} product={p} onAddToCart={onAddToCart} onNavigate={onNavigate} />)}
+            </div>
+          ) : (
+            <div style={{ textAlign:'center', padding:'64px 24px', background:'white', borderRadius:'16px', boxShadow:'0 2px 8px rgba(0,0,0,0.06)' }}>
+              <Icon name="search" size={40} color="#d1d5db" />
+              <div style={{ fontFamily:"'Syne', sans-serif", fontWeight:700, fontSize:'18px', color:C, marginTop:'12px', marginBottom:'6px' }}>No products found</div>
+              <div style={{ fontFamily:"'Plus Jakarta Sans', sans-serif", fontSize:'13px', color:'#6b7280' }}>Try adjusting filters or search</div>
+            </div>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* ── PRODUCT DETAIL ──────────────────────────────────────────────── */
+function ProductPage({ product, onNavigate, onAddToCart }) {
+  const p = product || PRODUCTS[0];
+  const [selectedColor, setSelectedColor] = React.useState('Space Grey');
+  const [qty, setQty] = React.useState(1);
+  const [activeTab, setActiveTab] = React.useState('description');
+  const [wishlisted, setWishlisted] = React.useState(false);
+  const [added, setAdded] = React.useState(false);
+
+  const discount = p.originalPrice ? Math.round(((p.originalPrice - p.price) / p.originalPrice) * 100) : null;
+  const savings = p.originalPrice ? p.originalPrice - p.price : 0;
+  const related = PRODUCTS.filter(x => x.id !== p.id && x.category === p.category).slice(0,4);
+  const specs = [
+    { label:'Processor', value:'Intel Core i5-1235U' }, { label:'RAM', value:'8GB DDR4' },
+    { label:'Storage', value:'512GB SSD' }, { label:'Display', value:'15.6" FHD 1920×1080' },
+    { label:'Battery', value:'Up to 7 hours' }, { label:'OS', value:'Windows 11 Home' },
+  ];
+
+  const handleAdd = () => {
+    onAddToCart(p, qty);
+    setAdded(true);
+    setTimeout(() => setAdded(false), 2000);
+  };
+
+  return (
+    <div style={{ maxWidth:'1200px', margin:'0 auto', padding:'24px 24px 48px' }}>
+      {/* Breadcrumb */}
+      <div style={{ fontFamily:"'Plus Jakarta Sans', sans-serif", fontSize:'12px', color:'#6b7280', marginBottom:'20px', display:'flex', alignItems:'center', gap:'6px', flexWrap:'wrap' }}>
+        <span style={{ color:M, cursor:'pointer' }} onClick={() => onNavigate('home')}>Home</span>
+        <Icon name="chevron-right" size={12} color="#9ca3af" />
+        <span style={{ color:M, cursor:'pointer' }} onClick={() => onNavigate('shop')}>Shop</span>
+        <Icon name="chevron-right" size={12} color="#9ca3af" />
+        <span style={{ color:M, cursor:'pointer' }} onClick={() => onNavigate('shop', { category: p.category })}>{p.category}</span>
+        <Icon name="chevron-right" size={12} color="#9ca3af" />
+        <span style={{ color:C, fontWeight:600 }}>{p.name}</span>
+      </div>
+
+      <div style={{ display:'flex', gap:'32px', marginBottom:'36px' }}>
+        {/* Image */}
+        <div style={{ flex:1 }}>
+          <div style={{ background:'linear-gradient(135deg,#f0faf2,#e8f5e9)', borderRadius:'20px', height:'360px', display:'flex', alignItems:'center', justifyContent:'center', fontSize:'140px', position:'relative' }}>
+            {p.badge && <div style={{ position:'absolute', top:'16px', left:'16px', background:'#ef4444', color:'#fff', borderRadius:'8px', padding:'4px 12px', fontSize:'11px', fontWeight:700, fontFamily:"'Plus Jakarta Sans', sans-serif" }}>{p.badge}</div>}
+            <button onClick={() => setWishlisted(w => !w)} style={{ position:'absolute', top:'16px', right:'16px', background:'white', border:'none', borderRadius:'50%', width:'42px', height:'42px', display:'flex', alignItems:'center', justifyContent:'center', cursor:'pointer', boxShadow:'0 2px 10px rgba(0,0,0,0.1)' }}>
+              <Icon name={wishlisted ? 'heart-filled' : 'heart'} size={20} color={wishlisted ? '#ef4444' : '#9ca3af'} />
+            </button>
+            <button style={{ position:'absolute', top:'66px', right:'16px', background:'white', border:'none', borderRadius:'50%', width:'42px', height:'42px', display:'flex', alignItems:'center', justifyContent:'center', cursor:'pointer', boxShadow:'0 2px 10px rgba(0,0,0,0.1)' }}>
+              <Icon name="share" size={18} color="#9ca3af" />
+            </button>
+            {p.image}
+          </div>
+        </div>
+
+        {/* Info */}
+        <div style={{ flex:1, display:'flex', flexDirection:'column', gap:'16px' }}>
+          <div>
+            <div style={{ fontSize:'11px', color:M, fontFamily:"'Plus Jakarta Sans', sans-serif", fontWeight:600, textTransform:'uppercase', letterSpacing:'1px', marginBottom:'6px' }}>{p.brand} · {p.category}</div>
+            <h1 style={{ fontFamily:"'Syne', sans-serif", fontWeight:800, fontSize:'28px', color:'#1a1a1a', lineHeight:1.2 }}>{p.name}</h1>
+          </div>
+          <div style={{ display:'flex', alignItems:'center', gap:'8px', flexWrap:'wrap' }}>
+            <Stars rating={p.rating} size={14} />
+            <span style={{ fontFamily:"'Plus Jakarta Sans', sans-serif", fontSize:'12px', fontWeight:600, color:C }}>{p.rating}</span>
+            <span style={{ fontFamily:"'Plus Jakarta Sans', sans-serif", fontSize:'12px', color:'#6b7280' }}>({p.reviews} reviews)</span>
+            <span style={{ fontFamily:"'Plus Jakarta Sans', sans-serif", fontSize:'12px', fontWeight:600, color:'#16a34a', display:'flex', alignItems:'center', gap:'4px' }}>
+              <Icon name="check" size={12} color="#16a34a" /> In Stock
+            </span>
+          </div>
+          {/* Price */}
+          <div style={{ background:'#f0faf2', borderRadius:'14px', padding:'16px' }}>
+            <div style={{ display:'flex', alignItems:'baseline', gap:'10px', flexWrap:'wrap' }}>
+              <span style={{ fontFamily:"'Syne', sans-serif", fontWeight:800, fontSize:'34px', color:C }}>R{p.price.toLocaleString()}</span>
+              {p.originalPrice && <span style={{ fontFamily:"'Plus Jakarta Sans', sans-serif", fontSize:'16px', color:'#9ca3af', textDecoration:'line-through' }}>R{p.originalPrice.toLocaleString()}</span>}
+              {discount && <span style={{ background:'#ef4444', color:'white', borderRadius:'8px', padding:'3px 10px', fontSize:'12px', fontWeight:700, fontFamily:"'Plus Jakarta Sans', sans-serif" }}>-{discount}%</span>}
+            </div>
+            {savings > 0 && <div style={{ fontFamily:"'Plus Jakarta Sans', sans-serif", fontSize:'13px', color:'#16a34a', fontWeight:600, marginTop:'4px', display:'flex', alignItems:'center', gap:'4px' }}>
+              <Icon name="tag" size={13} color="#16a34a" /> You save R{savings.toLocaleString()}!
+            </div>}
+          </div>
+          {/* Colours */}
+          <div>
+            <div style={{ fontFamily:"'Syne', sans-serif", fontWeight:700, fontSize:'13px', color:C, marginBottom:'8px' }}>Colour: <span style={{ fontWeight:400, color:'#374151' }}>{selectedColor}</span></div>
+            <div style={{ display:'flex', gap:'8px', flexWrap:'wrap' }}>
+              {['Space Grey','Arctic White','Midnight Blue'].map(col => (
+                <button key={col} onClick={() => setSelectedColor(col)}
+                  style={{ background:'white', border: selectedColor===col ? `2.5px solid ${C}` : '2px solid #e5e7eb', borderRadius:'20px', padding:'6px 14px', fontSize:'12px', fontFamily:"'Plus Jakarta Sans', sans-serif", fontWeight:600, cursor:'pointer', color: selectedColor===col ? C : '#374151', transition:'all 0.15s' }}>
+                  {col}
+                </button>
+              ))}
+            </div>
+          </div>
+          {/* Qty */}
+          <div>
+            <div style={{ fontFamily:"'Syne', sans-serif", fontWeight:700, fontSize:'13px', color:C, marginBottom:'8px' }}>Quantity</div>
+            <div style={{ display:'flex', alignItems:'center', background:'white', borderRadius:'10px', border:'2px solid var(--kh-border)', width:'fit-content' }}>
+              <button onClick={() => setQty(q => Math.max(1,q-1))} style={{ background:'none', border:'none', width:'40px', height:'40px', cursor:'pointer', display:'flex', alignItems:'center', justifyContent:'center' }}>
+                <Icon name="minus" size={16} color="#374151" />
+              </button>
+              <span style={{ padding:'0 16px', fontFamily:"'Syne', sans-serif", fontWeight:700, fontSize:'15px', color:C, minWidth:'40px', textAlign:'center' }}>{qty}</span>
+              <button onClick={() => setQty(q => q+1)} style={{ background:'none', border:'none', width:'40px', height:'40px', cursor:'pointer', display:'flex', alignItems:'center', justifyContent:'center' }}>
+                <Icon name="plus" size={16} color="#374151" />
+              </button>
+            </div>
+          </div>
+          {/* CTAs */}
+          <div style={{ display:'flex', gap:'10px' }}>
+            <button onClick={handleAdd} style={{ flex:1, background: added ? '#16a34a' : C, color:'white', border:'none', borderRadius:'12px', padding:'14px 24px', fontSize:'14px', fontWeight:700, cursor:'pointer', fontFamily:"'Syne', sans-serif", transition:'all 0.2s', display:'flex', alignItems:'center', justifyContent:'center', gap:'8px' }}>
+              <Icon name="cart" size={16} color="#fff" /> {added ? 'Added to Cart!' : 'Add to Cart'}
+            </button>
+            <button onClick={() => onNavigate('cart')} style={{ flex:1, background:'white', color:C, border:`2.5px solid ${C}`, borderRadius:'12px', padding:'14px 24px', fontSize:'14px', fontWeight:700, cursor:'pointer', fontFamily:"'Syne', sans-serif' transition:'all 0.2s" }}>
+              ⚡ Buy Now
+            </button>
+          </div>
+          {/* Delivery info */}
+          <div style={{ background:'white', borderRadius:'14px', padding:'14px 16px', display:'flex', flexDirection:'column', gap:'10px', boxShadow:'0 2px 8px rgba(0,0,0,0.05)' }}>
+            {[{icon:'truck',t:'Free Delivery',d:'Orders over R750 via The Courier Guy'},{icon:'lock',t:'Secure Payment',d:'PayFast — Cards, EFT, SnapScan & more'},{icon:'rotate-ccw',t:'30-Day Returns',d:'Hassle-free return policy'},{icon:'shield',t:'Warranty',d:'1 Year manufacturer warranty'}].map(i => (
+              <div key={i.t} style={{ display:'flex', alignItems:'center', gap:'12px' }}>
+                <div style={{ width:'32px', height:'32px', background:'#f0faf2', borderRadius:'8px', display:'flex', alignItems:'center', justifyContent:'center', flexShrink:0 }}>
+                  <Icon name={i.icon} size={16} color={C} />
+                </div>
+                <div>
+                  <div style={{ fontFamily:"'Syne', sans-serif", fontWeight:700, fontSize:'12px', color:C }}>{i.t}</div>
+                  <div style={{ fontFamily:"'Plus Jakarta Sans', sans-serif", fontSize:'11px', color:'#6b7280' }}>{i.d}</div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* Tabs */}
+      <div style={{ background:'white', borderRadius:'18px', padding:'28px 32px', marginBottom:'28px', boxShadow:'0 2px 8px rgba(0,0,0,0.06)' }}>
+        <div style={{ display:'flex', borderBottom:'2px solid #f0f0f0', marginBottom:'24px' }}>
+          {['description','specs','reviews'].map(tab => (
+            <button key={tab} onClick={() => setActiveTab(tab)}
+              style={{ background:'none', border:'none', padding:'12px 24px', fontSize:'13px', fontWeight:700, fontFamily:"'Syne', sans-serif", cursor:'pointer', color: activeTab===tab ? C : '#6b7280', borderBottom: activeTab===tab ? `2.5px solid ${C}` : '2.5px solid transparent', marginBottom:'-2px', transition:'color 0.15s', textTransform:'capitalize' }}>
+              {tab==='reviews' ? `Reviews (${p.reviews})` : tab.charAt(0).toUpperCase()+tab.slice(1)}
+            </button>
+          ))}
+        </div>
+        {activeTab==='description' && (
+          <div>
+            <p style={{ fontFamily:"'Plus Jakarta Sans', sans-serif", fontSize:'14px', color:'#374151', lineHeight:1.7, marginBottom:'20px' }}>
+              The {p.name} is the perfect everyday device for work, study, and entertainment. Built for South Africans who need reliable performance at a great price — delivered fast via The Courier Guy with a full 1-year warranty.
+            </p>
+            <div style={{ fontFamily:"'Syne', sans-serif", fontWeight:700, fontSize:'14px', color:C, marginBottom:'12px' }}>Key Highlights</div>
+            <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:'8px' }}>
+              {['Fast performance for everyday tasks','Nationwide warranty included','Secure checkout via PayFast','Free delivery on orders over R750','30-day hassle-free returns','SA-based customer support'].map(h => (
+                <div key={h} style={{ display:'flex', alignItems:'center', gap:'10px', padding:'10px 12px', background:'#f0faf2', borderRadius:'10px' }}>
+                  <Icon name="check" size={14} color="#16a34a" />
+                  <span style={{ fontFamily:"'Plus Jakarta Sans', sans-serif", fontSize:'13px', color:C, fontWeight:500 }}>{h}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+        {activeTab==='specs' && (
+          <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:'0' }}>
+            {specs.map((s,i) => (
+              <div key={s.label} style={{ display:'flex', padding:'12px 0', borderBottom:'1px solid #f7f5f0', gap:'16px' }}>
+                <div style={{ fontFamily:"'Plus Jakarta Sans', sans-serif", fontSize:'13px', fontWeight:600, color:'#6b7280', minWidth:'110px' }}>{s.label}</div>
+                <div style={{ fontFamily:"'Plus Jakarta Sans', sans-serif", fontSize:'13px', color:'#1a1a1a', fontWeight:500 }}>{s.value}</div>
+              </div>
+            ))}
+          </div>
+        )}
+        {activeTab==='reviews' && (
+          <div style={{ display:'flex', flexDirection:'column', gap:'12px' }}>
+            {REVIEWS.map((r,i) => (
+              <div key={i} style={{ padding:'16px', background:'#fafafa', borderRadius:'14px', border:'1px solid #f0f0f0' }}>
+                <div style={{ display:'flex', justifyContent:'space-between', marginBottom:'8px', flexWrap:'wrap', gap:'6px' }}>
+                  <div>
+                    <div style={{ display:'flex', alignItems:'center', gap:'8px', marginBottom:'3px' }}>
+                      <span style={{ fontFamily:"'Syne', sans-serif", fontWeight:700, fontSize:'13px', color:'#1a1a1a' }}>{r.name}</span>
+                      {r.verified && <span style={{ background:'#d1fae5', color:'#059669', borderRadius:'6px', padding:'1px 7px', fontSize:'9px', fontWeight:700, fontFamily:"'Plus Jakarta Sans', sans-serif" }}>✓ Verified</span>}
+                    </div>
+                    <Stars rating={r.rating} size={11} />
+                  </div>
+                  <span style={{ fontFamily:"'Plus Jakarta Sans', sans-serif", fontSize:'11px', color:'#9ca3af' }}>{r.date}</span>
+                </div>
+                <p style={{ fontFamily:"'Plus Jakarta Sans', sans-serif", fontSize:'13px', color:'#374151', lineHeight:1.6 }}>{r.comment}</p>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+
+      {related.length > 0 && (
+        <div>
+          <h2 style={{ fontFamily:"'Syne', sans-serif", fontWeight:800, fontSize:'20px', color:C, marginBottom:'14px' }}>You Might Also Like</h2>
+          <div style={{ display:'grid', gridTemplateColumns:'repeat(4,1fr)', gap:'14px' }}>
+            {related.map(rp => <KHProductCard key={rp.id} product={rp} onAddToCart={onAddToCart} onNavigate={onNavigate} />)}
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
+/* ── CART PAGE ───────────────────────────────────────────────────── */
+function CartPage({ cartItems, onUpdateQty, onRemove, onNavigate }) {
+  const [coupon, setCoupon] = React.useState('');
+  const [couponApplied, setCouponApplied] = React.useState(false);
+  const [couponError, setCouponError] = React.useState(false);
+
+  const subtotal = cartItems.reduce((s,i) => s + i.price * i.qty, 0);
+  const couponDiscount = couponApplied ? Math.round(subtotal*0.1) : 0;
+  const delivery = subtotal >= 750 ? 0 : 99;
+  const total = subtotal - couponDiscount + delivery;
+  const totalItems = cartItems.reduce((s,i) => s + i.qty, 0);
+
+  return (
+    <div style={{ maxWidth:'1200px', margin:'0 auto', padding:'24px 24px 48px' }}>
+      <div style={{ fontFamily:"'Plus Jakarta Sans', sans-serif", fontSize:'12px', color:'#6b7280', marginBottom:'16px', display:'flex', alignItems:'center', gap:'6px' }}>
+        <span style={{ color:M, cursor:'pointer' }} onClick={() => onNavigate('home')}>Home</span>
+        <Icon name="chevron-right" size={12} color="#9ca3af" />
+        <span style={{ color:C, fontWeight:600 }}>My Cart</span>
+      </div>
+
+      {cartItems.length === 0 ? (
+        <div style={{ textAlign:'center', padding:'80px 24px', background:'white', borderRadius:'18px', boxShadow:'0 2px 8px rgba(0,0,0,0.06)' }}>
+          <div style={{ width:'80px', height:'80px', background:'#f0faf2', borderRadius:'50%', display:'flex', alignItems:'center', justifyContent:'center', margin:'0 auto 16px' }}>
+            <Icon name="cart" size={36} color="#c8f5d8" />
+          </div>
+          <div style={{ fontFamily:"'Syne', sans-serif", fontWeight:800, fontSize:'22px', color:C, marginBottom:'8px' }}>Your cart is empty</div>
+          <div style={{ fontFamily:"'Plus Jakarta Sans', sans-serif", fontSize:'14px', color:'#6b7280', marginBottom:'24px' }}>Looks like you haven't added anything yet.</div>
+          <button onClick={() => onNavigate('shop')} style={{ background:C, color:'white', border:'none', borderRadius:'24px', padding:'13px 32px', fontSize:'14px', fontWeight:700, cursor:'pointer', fontFamily:"'Syne', sans-serif", display:'inline-flex', alignItems:'center', gap:'8px' }}>
+            <Icon name="store" size={16} color="#fff" /> Continue Shopping
+          </button>
+        </div>
+      ) : (
+        <div style={{ display:'flex', gap:'20px', alignItems:'flex-start' }}>
+          {/* Items */}
+          <div style={{ flex:1, display:'flex', flexDirection:'column', gap:'12px' }}>
+            <div style={{ display:'flex', justifyContent:'space-between', alignItems:'center' }}>
+              <h1 style={{ fontFamily:"'Syne', sans-serif", fontWeight:800, fontSize:'24px', color:C }}>My Cart <span style={{ fontSize:'14px', fontWeight:500, color:'#6b7280' }}>({totalItems} items)</span></h1>
+            </div>
+            {delivery > 0 ? (
+              <div style={{ background:'#fff8e1', border:'1.5px solid #fde68a', borderRadius:'12px', padding:'12px 16px' }}>
+                <div style={{ fontFamily:"'Plus Jakarta Sans', sans-serif", fontSize:'12px', fontWeight:600, color:'#92400e', marginBottom:'6px', display:'flex', alignItems:'center', gap:'6px' }}>
+                  <Icon name="truck" size={14} color="#92400e" /> Add R{(750-subtotal).toLocaleString()} more for FREE delivery!
+                </div>
+                <div style={{ background:'#fde68a', borderRadius:'6px', height:'6px', overflow:'hidden' }}>
+                  <div style={{ height:'100%', width:`${Math.min(100,(subtotal/750)*100)}%`, background:'#f59e0b', borderRadius:'6px', transition:'width 0.4s ease' }} />
+                </div>
+              </div>
+            ) : (
+              <div style={{ background:'#d1fae5', border:'1.5px solid #6ee7b7', borderRadius:'12px', padding:'12px 16px', display:'flex', alignItems:'center', gap:'8px' }}>
+                <Icon name="check" size={14} color="#065f46" />
+                <span style={{ fontFamily:"'Plus Jakarta Sans', sans-serif", fontSize:'12px', fontWeight:600, color:'#065f46' }}>You qualify for FREE delivery!</span>
+              </div>
+            )}
+            {cartItems.map(item => (
+              <div key={item.id} style={{ background:'white', borderRadius:'16px', padding:'18px', display:'flex', gap:'14px', boxShadow:'0 2px 8px rgba(0,0,0,0.06)', alignItems:'flex-start' }}>
+                <div style={{ background:'linear-gradient(135deg,#f0faf2,#e8f5e9)', borderRadius:'12px', width:'90px', height:'90px', display:'flex', alignItems:'center', justifyContent:'center', fontSize:'40px', flexShrink:0 }}>{item.image}</div>
+                <div style={{ flex:1 }}>
+                  <div style={{ fontSize:'9px', color:M, fontFamily:"'Plus Jakarta Sans', sans-serif", fontWeight:600, textTransform:'uppercase', letterSpacing:'0.5px', marginBottom:'2px' }}>{item.brand} · {item.category}</div>
+                  <div style={{ fontFamily:"'Syne', sans-serif", fontWeight:700, fontSize:'15px', color:'#1a1a1a', marginBottom:'8px' }}>{item.name}</div>
+                  <div style={{ display:'flex', alignItems:'center', justifyContent:'space-between', flexWrap:'wrap', gap:'8px' }}>
+                    <div style={{ display:'flex', alignItems:'center', background:'#f7f5f0', borderRadius:'8px', border:'1.5px solid var(--kh-border)' }}>
+                      <button onClick={() => onUpdateQty(item.id,-1)} style={{ background:'none', border:'none', width:'34px', height:'34px', cursor:'pointer', display:'flex', alignItems:'center', justifyContent:'center' }}>
+                        <Icon name="minus" size={14} color="#374151" />
+                      </button>
+                      <span style={{ padding:'0 12px', fontFamily:"'Syne', sans-serif", fontWeight:700, fontSize:'14px', color:C }}>{item.qty}</span>
+                      <button onClick={() => onUpdateQty(item.id,1)} style={{ background:'none', border:'none', width:'34px', height:'34px', cursor:'pointer', display:'flex', alignItems:'center', justifyContent:'center' }}>
+                        <Icon name="plus" size={14} color="#374151" />
+                      </button>
+                    </div>
+                    <span style={{ fontFamily:"'Syne', sans-serif", fontWeight:800, fontSize:'16px', color:C }}>R{(item.price*item.qty).toLocaleString()}</span>
+                    <button onClick={() => onRemove(item.id)} style={{ background:'none', border:'none', color:'#9ca3af', fontSize:'12px', fontFamily:"'Plus Jakarta Sans', sans-serif", fontWeight:600, cursor:'pointer', display:'flex', alignItems:'center', gap:'4px' }}>
+                      <Icon name="trash-2" size={13} color="#9ca3af" /> Remove
+                    </button>
+                  </div>
+                </div>
+              </div>
+            ))}
+            <button onClick={() => onNavigate('shop')} style={{ background:'white', color:C, border:'2px solid var(--kh-border)', borderRadius:'12px', padding:'12px 20px', fontSize:'13px', fontWeight:700, cursor:'pointer', fontFamily:"'Syne', sans-serif", width:'fit-content', display:'flex', alignItems:'center', gap:'6px' }}>
+              <Icon name="arrow-left" size={14} color={C} /> Continue Shopping
+            </button>
+          </div>
+
+          {/* Summary */}
+          <div style={{ width:'320px', display:'flex', flexDirection:'column', gap:'14px' }}>
+            <div style={{ background:'white', borderRadius:'16px', padding:'18px', boxShadow:'0 2px 8px rgba(0,0,0,0.06)' }}>
+              <div style={{ fontFamily:"'Syne', sans-serif", fontWeight:700, fontSize:'14px', color:C, marginBottom:'10px', display:'flex', alignItems:'center', gap:'6px' }}>
+                <Icon name="tag" size={14} color={C} /> Coupon Code
+              </div>
+              <div style={{ display:'flex', gap:'8px' }}>
+                <input value={coupon} onChange={e => { setCoupon(e.target.value); setCouponError(false); }} placeholder="Try KIWI10"
+                  style={{ flex:1, padding:'9px 12px', borderRadius:'8px', border:`1.5px solid ${couponApplied ? '#6ee7b7' : couponError ? '#fca5a5' : '#e5e7eb'}`, fontSize:'12px', color:'#374151', background: couponApplied ? '#f0fdf4' : 'white', outline:'none' }} />
+                <button onClick={() => { if(coupon.toUpperCase()==='KIWI10'){setCouponApplied(true);setCouponError(false);}else{setCouponError(true);setCouponApplied(false);} }}
+                  style={{ background:C, color:'white', border:'none', borderRadius:'8px', padding:'9px 14px', fontSize:'12px', fontWeight:700, cursor:'pointer', fontFamily:"'Syne', sans-serif" }}>Apply</button>
+              </div>
+              {couponApplied && <div style={{ fontFamily:"'Plus Jakarta Sans', sans-serif", fontSize:'11px', color:'#059669', fontWeight:600, marginTop:'6px', display:'flex', alignItems:'center', gap:'4px' }}><Icon name="check" size={12} color="#059669" /> KIWI10 applied — 10% off!</div>}
+              {couponError && <div style={{ fontFamily:"'Plus Jakarta Sans', sans-serif", fontSize:'11px', color:'#dc2626', fontWeight:600, marginTop:'6px', display:'flex', alignItems:'center', gap:'4px' }}><Icon name="x" size={12} color="#dc2626" /> Invalid coupon code</div>}
+            </div>
+            <div style={{ background:'white', borderRadius:'16px', padding:'20px', boxShadow:'0 2px 8px rgba(0,0,0,0.06)' }}>
+              <div style={{ fontFamily:"'Syne', sans-serif", fontWeight:800, fontSize:'16px', color:C, marginBottom:'16px' }}>Order Summary</div>
+              <div style={{ display:'flex', flexDirection:'column', gap:'10px', marginBottom:'14px' }}>
+                {[
+                  { label:`Subtotal (${totalItems} items)`, value:`R${subtotal.toLocaleString()}` },
+                  ...(couponApplied ? [{ label:'Coupon (KIWI10)', value:`-R${couponDiscount.toLocaleString()}`, green:true }] : []),
+                  { label:'Delivery', value: delivery===0 ? 'FREE 🎉' : `R${delivery}`, green: delivery===0 },
+                ].map(row => (
+                  <div key={row.label} style={{ display:'flex', justifyContent:'space-between' }}>
+                    <span style={{ fontFamily:"'Plus Jakarta Sans', sans-serif", fontSize:'13px', color:'#6b7280' }}>{row.label}</span>
+                    <span style={{ fontFamily:"'Plus Jakarta Sans', sans-serif", fontSize:'13px', fontWeight:600, color: row.green ? '#059669' : '#1a1a1a' }}>{row.value}</span>
+                  </div>
+                ))}
+              </div>
+              <div style={{ borderTop:'2px solid #f0f0f0', paddingTop:'14px', marginBottom:'16px', display:'flex', justifyContent:'space-between', alignItems:'center' }}>
+                <span style={{ fontFamily:"'Syne', sans-serif", fontWeight:800, fontSize:'16px', color:'#1a1a1a' }}>Total</span>
+                <span style={{ fontFamily:"'Syne', sans-serif", fontWeight:800, fontSize:'22px', color:C }}>R{total.toLocaleString()}</span>
+              </div>
+              <button onClick={() => onNavigate('account')} style={{ width:'100%', background:C, color:'white', border:'none', borderRadius:'12px', padding:'15px', fontSize:'15px', fontWeight:700, cursor:'pointer', fontFamily:"'Syne', sans-serif", marginBottom:'10px', display:'flex', alignItems:'center', justifyContent:'center', gap:'8px' }}>
+                Proceed to Checkout <Icon name="arrow-right" size={16} color="#fff" />
+              </button>
+              <div style={{ display:'flex', justifyContent:'center', gap:'6px', flexWrap:'wrap', marginBottom:'8px' }}>
+                {[{icon:'credit-card',l:'Card'},{icon:'landmark',l:'EFT'},{icon:'smartphone',l:'SnapScan'},{icon:'wallet',l:'Mobicred'}].map(pm => (
+                  <span key={pm.l} style={{ background:'#f7f5f0', borderRadius:'6px', padding:'4px 8px', fontSize:'10px', fontFamily:"'Plus Jakarta Sans', sans-serif", color:'#6b7280', display:'flex', alignItems:'center', gap:'4px' }}>
+                    <Icon name={pm.icon} size={10} color="#9ca3af" /> {pm.l}
+                  </span>
+                ))}
+              </div>
+              <div style={{ textAlign:'center', fontFamily:"'Plus Jakarta Sans', sans-serif", fontSize:'11px', color:'#9ca3af', display:'flex', alignItems:'center', justifyContent:'center', gap:'4px' }}>
+                <Icon name="lock" size={11} color="#9ca3af" /> Secured by PayFast
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
+/* ── ACCOUNT PAGE ────────────────────────────────────────────────── */
+function AccountPage({ onNavigate }) {
+  const [isLoggedIn, setIsLoggedIn] = React.useState(false);
+  const [email, setEmail] = React.useState('');
+  const [password, setPassword] = React.useState('');
+  const [activeTab, setActiveTab] = React.useState('dashboard');
+  const orders = [
+    { id:'KH-482910', date:'18 Mar 2026', status:'Delivered', total:9947, items:['💻','🖱️'] },
+    { id:'KH-371204', date:'2 Mar 2026', status:'In Transit', total:599, items:['🔌'] },
+    { id:'KH-294831', date:'14 Feb 2026', status:'Processing', total:898, items:['🧶'] },
+  ];
+  const statusColor = { Delivered:'#059669','In Transit':'#2563eb',Processing:'#d97706' };
+  const statusBg = { Delivered:'#d1fae5','In Transit':'#dbeafe',Processing:'#fef3c7' };
+  const tabs = [
+    { id:'dashboard', icon:'home', label:'Dashboard' },
+    { id:'orders', icon:'package', label:'My Orders' },
+    { id:'addresses', icon:'map-pin', label:'Addresses' },
+    { id:'profile', icon:'user', label:'Profile' },
+    { id:'wishlist', icon:'heart', label:'Wishlist' },
+  ];
+
+  const login = () => { if (email.includes('@') && password.length >= 4) setIsLoggedIn(true); };
+
+  if (!isLoggedIn) return (
+    <div style={{ maxWidth:'460px', margin:'48px auto', padding:'0 16px 80px' }}>
+      <div style={{ textAlign:'center', marginBottom:'24px' }}>
+        <div style={{ width:'56px', height:'56px', background:`linear-gradient(135deg,${L},${C})`, borderRadius:'16px', display:'flex', alignItems:'center', justifyContent:'center', fontSize:'28px', margin:'0 auto 10px', boxShadow:'0 4px 16px rgba(82,178,86,0.3)' }}>🥝</div>
+        <div style={{ fontFamily:"'Syne', sans-serif", fontWeight:800, fontSize:'22px', color:C }}>Welcome back!</div>
+        <div style={{ fontFamily:"'Plus Jakarta Sans', sans-serif", fontSize:'13px', color:'#6b7280', marginTop:'4px' }}>Sign in to your KiwiHub account</div>
+      </div>
+      <div style={{ background:'white', borderRadius:'20px', padding:'32px', boxShadow:'0 4px 24px rgba(0,0,0,0.08)' }}>
+        <div style={{ display:'flex', flexDirection:'column', gap:'14px' }}>
+          <div>
+            <label style={{ display:'block', fontFamily:"'Plus Jakarta Sans', sans-serif", fontSize:'12px', fontWeight:600, color:'#374151', marginBottom:'5px' }}>Email Address</label>
+            <input value={email} onChange={e => setEmail(e.target.value)} type="email" placeholder="you@email.com"
+              style={{ width:'100%', padding:'10px 14px', borderRadius:'10px', border:'1.5px solid #e5e7eb', fontSize:'13px', color:'#1a1a1a', outline:'none' }}
+              onFocus={e => e.target.style.borderColor=L} onBlur={e => e.target.style.borderColor='#e5e7eb'} />
+          </div>
+          <div>
+            <label style={{ display:'block', fontFamily:"'Plus Jakarta Sans', sans-serif", fontSize:'12px', fontWeight:600, color:'#374151', marginBottom:'5px' }}>Password</label>
+            <input value={password} onChange={e => setPassword(e.target.value)} type="password" placeholder="Your password"
+              style={{ width:'100%', padding:'10px 14px', borderRadius:'10px', border:'1.5px solid #e5e7eb', fontSize:'13px', color:'#1a1a1a', outline:'none' }}
+              onFocus={e => e.target.style.borderColor=L} onBlur={e => e.target.style.borderColor='#e5e7eb'} />
+          </div>
+          <button onClick={login} style={{ width:'100%', background:C, color:'white', border:'none', borderRadius:'12px', padding:'13px', fontSize:'14px', fontWeight:700, cursor:'pointer', fontFamily:"'Syne', sans-serif", display:'flex', alignItems:'center', justifyContent:'center', gap:'8px' }}>
+            Sign In <Icon name="arrow-right" size={16} color="#fff" />
+          </button>
+          <div style={{ textAlign:'center', fontFamily:"'Plus Jakarta Sans', sans-serif", fontSize:'12px', color:'#9ca3af' }}>Any email + 4+ char password to demo</div>
+        </div>
+      </div>
+    </div>
+  );
+
+  return (
+    <div style={{ maxWidth:'1100px', margin:'0 auto', padding:'24px 24px 48px' }}>
+      <div style={{ display:'flex', gap:'20px', alignItems:'flex-start' }}>
+        <div style={{ width:'220px', flexShrink:0, display:'flex', flexDirection:'column', gap:'12px' }}>
+          <div style={{ background:'white', borderRadius:'16px', padding:'20px', textAlign:'center', boxShadow:'0 2px 8px rgba(0,0,0,0.06)' }}>
+            <div style={{ width:'60px', height:'60px', background:`linear-gradient(135deg,${L},${C})`, borderRadius:'50%', display:'flex', alignItems:'center', justifyContent:'center', margin:'0 auto 10px' }}>
+              <Icon name="user" size={26} color="#fff" />
+            </div>
+            <div style={{ fontFamily:"'Syne', sans-serif", fontWeight:800, fontSize:'15px', color:C }}>Qaasim</div>
+            <div style={{ fontFamily:"'Plus Jakarta Sans', sans-serif", fontSize:'11px', color:'#6b7280', marginTop:'2px' }}>{email || 'customer@kiwihub.co.za'}</div>
+            <div style={{ background:'#f0faf2', borderRadius:'8px', padding:'4px 10px', fontSize:'11px', fontFamily:"'Plus Jakarta Sans', sans-serif", fontWeight:600, color:C, marginTop:'8px', display:'inline-block' }}>🥝 KiwiHub Member</div>
+          </div>
+          <div style={{ background:'white', borderRadius:'16px', padding:'8px', boxShadow:'0 2px 8px rgba(0,0,0,0.06)' }}>
+            {tabs.map(tab => (
+              <button key={tab.id} onClick={() => setActiveTab(tab.id)}
+                style={{ width:'100%', display:'flex', alignItems:'center', gap:'10px', padding:'10px 12px', borderRadius:'10px', border:'none', background: activeTab===tab.id ? '#f0faf2' : 'transparent', color: activeTab===tab.id ? C : '#374151', fontFamily:"'Plus Jakarta Sans', sans-serif", fontSize:'13px', fontWeight: activeTab===tab.id ? 700 : 500, cursor:'pointer', textAlign:'left', marginBottom:'2px' }}>
+                <Icon name={tab.icon} size={14} color={activeTab===tab.id ? C : '#6b7280'} /> {tab.label}
+                {activeTab===tab.id && <span style={{ marginLeft:'auto', color:L }}><Icon name="chevron-right" size={14} color={L} /></span>}
+              </button>
+            ))}
+            <button onClick={() => setIsLoggedIn(false)} style={{ width:'100%', display:'flex', alignItems:'center', gap:'10px', padding:'10px 12px', borderRadius:'10px', border:'none', background:'transparent', color:'#dc2626', fontFamily:"'Plus Jakarta Sans', sans-serif", fontSize:'13px', fontWeight:500, cursor:'pointer', textAlign:'left', marginTop:'4px', borderTop:'1px solid #f7f5f0' }}>
+              <Icon name="arrow-left" size={14} color="#dc2626" /> Sign Out
+            </button>
+          </div>
+        </div>
+        <div style={{ flex:1, minWidth:0 }}>
+          {activeTab==='dashboard' && (
+            <div style={{ display:'flex', flexDirection:'column', gap:'14px' }}>
+              <h1 style={{ fontFamily:"'Syne', sans-serif", fontWeight:800, fontSize:'24px', color:C }}>Welcome back! 👋</h1>
+              <div style={{ display:'grid', gridTemplateColumns:'repeat(4,1fr)', gap:'10px' }}>
+                {[{icon:'package',label:'Total Orders',value:3},{icon:'truck',label:'In Transit',value:1},{icon:'check',label:'Delivered',value:1},{icon:'heart',label:'Wishlist',value:5}].map(s => (
+                  <div key={s.label} style={{ background:'white', borderRadius:'14px', padding:'16px', textAlign:'center', boxShadow:'0 2px 8px rgba(0,0,0,0.06)' }}>
+                    <div style={{ width:'40px', height:'40px', background:'#f0faf2', borderRadius:'10px', display:'flex', alignItems:'center', justifyContent:'center', margin:'0 auto 8px' }}>
+                      <Icon name={s.icon} size={20} color={C} />
+                    </div>
+                    <div style={{ fontFamily:"'Syne', sans-serif", fontWeight:800, fontSize:'22px', color:C }}>{s.value}</div>
+                    <div style={{ fontFamily:"'Plus Jakarta Sans', sans-serif", fontSize:'11px', color:'#6b7280' }}>{s.label}</div>
+                  </div>
+                ))}
+              </div>
+              <div style={{ background:'white', borderRadius:'16px', padding:'20px', boxShadow:'0 2px 8px rgba(0,0,0,0.06)' }}>
+                <div style={{ display:'flex', justifyContent:'space-between', marginBottom:'14px' }}>
+                  <div style={{ fontFamily:"'Syne', sans-serif", fontWeight:700, fontSize:'15px', color:C }}>Recent Order</div>
+                  <button onClick={() => setActiveTab('orders')} style={{ background:'none', border:'none', color:M, fontSize:'12px', fontFamily:"'Plus Jakarta Sans', sans-serif", fontWeight:600, cursor:'pointer', display:'flex', alignItems:'center', gap:'4px' }}>View all <Icon name="arrow-right" size={12} color={M} /></button>
+                </div>
+                <div style={{ display:'flex', justifyContent:'space-between', alignItems:'center', flexWrap:'wrap', gap:'10px' }}>
+                  <div><div style={{ fontFamily:"'Syne', sans-serif", fontWeight:700, fontSize:'14px', color:'#1a1a1a' }}>KH-482910</div><div style={{ fontFamily:"'Plus Jakarta Sans', sans-serif", fontSize:'12px', color:'#6b7280' }}>18 Mar 2026 · 2 items</div></div>
+                  <span style={{ background:'#d1fae5', color:'#059669', borderRadius:'20px', padding:'4px 12px', fontSize:'11px', fontWeight:700, fontFamily:"'Plus Jakarta Sans', sans-serif" }}>Delivered</span>
+                  <div style={{ fontFamily:"'Syne', sans-serif", fontWeight:800, fontSize:'15px', color:C }}>R9,947</div>
+                </div>
+              </div>
+            </div>
+          )}
+          {activeTab==='orders' && (
+            <div style={{ display:'flex', flexDirection:'column', gap:'12px' }}>
+              <h2 style={{ fontFamily:"'Syne', sans-serif", fontWeight:800, fontSize:'22px', color:C }}>My Orders</h2>
+              {orders.map(order => (
+                <div key={order.id} style={{ background:'white', borderRadius:'16px', padding:'18px', boxShadow:'0 2px 8px rgba(0,0,0,0.06)' }}>
+                  <div style={{ display:'flex', justifyContent:'space-between', flexWrap:'wrap', gap:'10px', marginBottom:'12px' }}>
+                    <div><div style={{ fontFamily:"'Syne', sans-serif", fontWeight:800, fontSize:'14px', color:C }}>{order.id}</div><div style={{ fontFamily:"'Plus Jakarta Sans', sans-serif", fontSize:'11px', color:'#6b7280', marginTop:'2px' }}>Placed on {order.date}</div></div>
+                    <div style={{ display:'flex', alignItems:'center', gap:'10px' }}>
+                      <span style={{ background:statusBg[order.status], color:statusColor[order.status], borderRadius:'20px', padding:'4px 12px', fontSize:'11px', fontWeight:700, fontFamily:"'Plus Jakarta Sans', sans-serif" }}>{order.status}</span>
+                      <span style={{ fontFamily:"'Syne', sans-serif", fontWeight:800, fontSize:'15px', color:C }}>R{order.total.toLocaleString()}</span>
+                    </div>
+                  </div>
+                  <div style={{ display:'flex', gap:'8px' }}>
+                    {order.items.map((img,i) => <div key={i} style={{ background:'#f0faf2', borderRadius:'10px', width:'52px', height:'52px', display:'flex', alignItems:'center', justifyContent:'center', fontSize:'24px' }}>{img}</div>)}
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+          {activeTab==='wishlist' && (
+            <div>
+              <h2 style={{ fontFamily:"'Syne', sans-serif", fontWeight:800, fontSize:'22px', color:C, marginBottom:'14px' }}>My Wishlist</h2>
+              <div style={{ display:'grid', gridTemplateColumns:'repeat(3,1fr)', gap:'12px' }}>
+                {PRODUCTS.slice(1,6).map(p => <KHProductCard key={p.id} product={p} onAddToCart={() => {}} onNavigate={() => {}} />)}
+              </div>
+            </div>
+          )}
+          {(activeTab==='profile'||activeTab==='addresses') && (
+            <div style={{ background:'white', borderRadius:'18px', padding:'40px', boxShadow:'0 2px 8px rgba(0,0,0,0.06)', textAlign:'center' }}>
+              <div style={{ width:'56px', height:'56px', background:'#f0faf2', borderRadius:'14px', display:'flex', alignItems:'center', justifyContent:'center', margin:'0 auto 12px' }}>
+                <Icon name={activeTab==='profile' ? 'user' : 'map-pin'} size={26} color={C} />
+              </div>
+              <div style={{ fontFamily:"'Plus Jakarta Sans', sans-serif", fontSize:'14px', color:'#6b7280' }}>
+                {activeTab==='profile' ? 'Profile editing' : 'Saved addresses'} — interact with the live site for full functionality.
+              </div>
+            </div>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* ── APP ROOT ─────────────────────────────────────────────────────── */
+function App() {
+  const [page, setPage] = React.useState('home');
+  const [pageData, setPageData] = React.useState(null);
+  const [cart, setCart] = React.useState([]);
+
+  const navigate = (p, data) => {
+    setPage(p); setPageData(data || null);
+    window.scrollTo({ top:0 });
+  };
+
+  const addToCart = (product, qty=1) => {
+    setCart(c => {
+      const ex = c.find(i => i.id===product.id);
+      if (ex) return c.map(i => i.id===product.id ? { ...i, qty:i.qty+qty } : i);
+      return [...c, { ...product, qty }];
+    });
+  };
+  const updateQty = (id, delta) => setCart(c => c.map(i => i.id===id ? { ...i, qty:Math.max(1, i.qty+delta) } : i));
+  const removeItem = (id) => setCart(c => c.filter(i => i.id!==id));
+  const cartCount = cart.reduce((s,i) => s+i.qty, 0);
+
+  return (
+    <div style={{ minHeight:'100vh', display:'flex', flexDirection:'column', background:'var(--kh-bg)' }}>
+      <KHNavbar cartCount={cartCount} currentPage={page} onNavigate={navigate} onCartClick={() => navigate('cart')} />
+      <div style={{ flex:1 }}>
+        {page==='home'    && <HomePage onNavigate={navigate} onAddToCart={addToCart} />}
+        {page==='shop'    && <ShopPage onNavigate={navigate} onAddToCart={addToCart} initialCategory={pageData?.category} />}
+        {page==='product' && <ProductPage product={pageData} onNavigate={navigate} onAddToCart={addToCart} />}
+        {page==='cart'    && <CartPage cartItems={cart} onUpdateQty={updateQty} onRemove={removeItem} onNavigate={navigate} />}
+        {page==='account' && <AccountPage onNavigate={navigate} />}
+        {page==='contact' && <ContactPage onNavigate={navigate} />}
+        {page==='faqs'    && <FaqsPage onNavigate={navigate} />}
+        {page==='returns' && <ReturnsPage onNavigate={navigate} />}
+        {page==='about'   && <AboutPage onNavigate={navigate} />}
+        {page==='tracking'&& <TrackingPage onNavigate={navigate} />}
+      </div>
+      <KHFooter onNavigate={navigate} />
+    </div>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+</script>
+</body>
+</html>

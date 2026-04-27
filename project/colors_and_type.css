@@ -1,0 +1,278 @@
+/*
+ * KiwiHub Design System — Colors & Typography
+ * Generated from Orange-Mango-2020/kiwi-hub.co.za source
+ *
+ * Font imports (include in HTML <head>):
+ * <link rel="preconnect" href="https://fonts.googleapis.com">
+ * <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+ */
+
+@import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap');
+
+:root {
+
+  /* ─── BRAND COLORS ──────────────────────────────────────── */
+  --color-green-deep:     #1a4a2e;   /* Primary brand — buttons, headings, logo */
+  --color-green-mid:      #40916c;   /* Secondary — links, breadcrumbs, accents */
+  --color-green-light:    #5cb85c;   /* Cart badge, progress fill, logo gradient */
+  --color-green-hover:    #2d6a4f;   /* Primary button hover state */
+
+  /* ─── SURFACE / BACKGROUND ──────────────────────────────── */
+  --color-bg-page:        #f7f5f0;   /* Cream — all page backgrounds */
+  --color-bg-card:        #ffffff;   /* White — all cards and panels */
+  --color-bg-green-light: #f0faf2;   /* Light green — image wells, price boxes */
+  --color-bg-green-tint:  #e8f5e9;   /* Green tint — search bg, chip fills */
+  --color-bg-mint:        #c8f5d8;   /* Mint — light accents, scrollbars */
+
+  /* ─── TEXT ──────────────────────────────────────────────── */
+  --color-text-primary:   #1a1a1a;   /* Product names, primary body */
+  --color-text-secondary: #374151;   /* Specs, descriptions, secondary labels */
+  --color-text-muted:     #6b7280;   /* Captions, dates, helper text */
+  --color-text-ghost:     #9ca3af;   /* Placeholders, disabled */
+  --color-text-brand:     #1a4a2e;   /* Brand-colored headings */
+  --color-text-link:      #40916c;   /* Links, breadcrumbs */
+  --color-text-on-dark:   #ffffff;   /* Text on dark green backgrounds */
+  --color-text-on-dark-muted: #c8f5d8; /* Muted text on dark green (announcement) */
+
+  /* ─── BORDER ────────────────────────────────────────────── */
+  --color-border:         #e5e7eb;   /* Default input/card border */
+  --color-border-brand:   #1a4a2e;   /* Active/selected state */
+  --color-border-green:   #e8f5e9;   /* Subtle green border (search) */
+  --color-border-success: #6ee7b7;   /* Success input border */
+  --color-border-error:   #fca5a5;   /* Error input border */
+  --color-border-mint:    #c8f5d8;   /* Mint/light green border */
+
+  /* ─── STATE COLORS ──────────────────────────────────────── */
+  --color-success:        #059669;   /* Verified, in-stock, free delivery */
+  --color-success-bg:     #d1fae5;   /* Success chip background */
+  --color-success-text:   #065f46;   /* Success text on success bg */
+
+  --color-warning:        #f59e0b;   /* Star ratings, progress */
+  --color-warning-bg:     #fef3c7;   /* Warning chip background */
+  --color-warning-text:   #92400e;   /* Warning text */
+
+  --color-error:          #dc2626;   /* Validation errors, out of stock */
+  --color-error-bg:       #fef2f2;   /* Error input background */
+  --color-error-bg-badge: #fee2e2;   /* Cancelled order badge */
+
+  --color-info:           #2563eb;   /* In-transit order status */
+  --color-info-bg:        #dbeafe;   /* In-transit badge background */
+
+  --color-discount:       #ef4444;   /* Discount badge, HOT DEAL */
+
+  /* ─── ANNOUNCEMENT BAR ──────────────────────────────────── */
+  --color-announcement-bg:   #1a4a2e;
+  --color-announcement-text: #c8f5d8;
+
+  /* ─── SHADOWS ───────────────────────────────────────────── */
+  --shadow-card:        0 2px 8px rgba(0, 0, 0, 0.06);
+  --shadow-card-hover:  0 12px 32px rgba(0, 0, 0, 0.10);
+  --shadow-navbar:      0 2px 12px rgba(0, 0, 0, 0.08);
+  --shadow-modal:       0 4px 24px rgba(0, 0, 0, 0.08);
+  --shadow-logo:        0 4px 16px rgba(92, 184, 92, 0.30);
+
+  /* ─── BORDER RADIUS ─────────────────────────────────────── */
+  --radius-xs:    6px;    /* Chips, small badges */
+  --radius-sm:    8px;    /* Small buttons, qty controls */
+  --radius-md:    10px;   /* Form inputs */
+  --radius-lg:    12px;   /* Standard buttons */
+  --radius-xl:    14px;   /* Product cards, small panels */
+  --radius-2xl:   16px;   /* Cart items, account panels */
+  --radius-3xl:   18px;   /* Tab panels, large cards */
+  --radius-4xl:   20px;   /* Main image wells */
+  --radius-pill:  24px;   /* Cart button, Shop Now */
+  --radius-full:  9999px; /* Circular elements */
+
+  /* ─── SPACING ───────────────────────────────────────────── */
+  --space-1:   4px;
+  --space-2:   6px;
+  --space-3:   8px;
+  --space-4:   10px;
+  --space-5:   12px;
+  --space-6:   14px;
+  --space-7:   16px;
+  --space-8:   20px;
+  --space-9:   24px;
+  --space-10:  28px;
+  --space-11:  32px;
+  --space-12:  40px;
+  --space-13:  48px;
+  --space-14:  56px;
+  --space-15:  64px;
+
+  /* ─── TYPOGRAPHY — FONTS ────────────────────────────────── */
+  --font-heading: 'Syne', system-ui, sans-serif;
+  --font-body:    'Plus Jakarta Sans', system-ui, sans-serif;
+
+  /* ─── TYPOGRAPHY — SEMANTIC SCALE ──────────────────────── */
+
+  /* Display / Hero */
+  --text-display: 700 56px/1.1 var(--font-heading);
+  --text-h1:      700 32px/1.2 var(--font-heading);
+  --text-h2:      700 24px/1.3 var(--font-heading);
+  --text-h3:      700 20px/1.3 var(--font-heading);
+  --text-h4:      700 18px/1.4 var(--font-heading);
+
+  /* Product prices */
+  --text-price-lg:  800 34px/1 var(--font-heading);
+  --text-price-md:  800 22px/1 var(--font-heading);
+  --text-price-sm:  800 15px/1 var(--font-heading);
+
+  /* UI labels (buttons, tabs, product names) */
+  --text-label-lg:  700 15px/1.4 var(--font-heading);
+  --text-label-md:  700 13px/1.4 var(--font-heading);
+  --text-label-sm:  700 12px/1.4 var(--font-heading);
+
+  /* Body */
+  --text-body-lg:   400 16px/1.6 var(--font-body);
+  --text-body-md:   400 14px/1.7 var(--font-body);
+  --text-body-sm:   400 13px/1.6 var(--font-body);
+
+  /* Supporting */
+  --text-caption:   500 12px/1.5 var(--font-body);
+  --text-micro:     600 11px/1.4 var(--font-body);
+  --text-nano:      600 10px/1.3 var(--font-body);
+  --text-badge:     700 11px/1 var(--font-body);
+  --text-overline:  600 11px/1 var(--font-body);   /* letter-spacing: 0.5–1px; text-transform: uppercase */
+
+  /* ─── TRANSITIONS ───────────────────────────────────────── */
+  --transition-fast:   0.15s ease;
+  --transition-base:   0.20s ease;
+  --transition-slow:   0.30s ease;
+
+  /* ─── LAYOUT ────────────────────────────────────────────── */
+  --max-width:         1200px;
+  --gutter-desktop:    24px;
+  --gutter-mobile:     12px;
+  --navbar-height-desktop: 68px;
+  --navbar-height-mobile:  56px;
+}
+
+/* ─── UTILITY CLASSES ──────────────────────────────────── */
+
+/* Buttons */
+.kh-btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: var(--color-green-deep);
+  color: var(--color-text-on-dark);
+  border: none;
+  border-radius: var(--radius-lg);
+  padding: 13px 24px;
+  font: var(--text-label-md);
+  cursor: pointer;
+  transition: background var(--transition-base);
+}
+.kh-btn-primary:hover { background: var(--color-green-hover); }
+
+.kh-btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--color-bg-card);
+  color: var(--color-green-deep);
+  border: 2.5px solid var(--color-green-deep);
+  border-radius: var(--radius-lg);
+  padding: 12px 24px;
+  font: var(--text-label-md);
+  cursor: pointer;
+  transition: background var(--transition-base);
+}
+.kh-btn-secondary:hover { background: var(--color-bg-green-light); }
+
+.kh-btn-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--color-green-deep);
+  color: var(--color-text-on-dark);
+  border: none;
+  border-radius: var(--radius-pill);
+  padding: 10px 22px;
+  font: var(--text-label-md);
+  cursor: pointer;
+  transition: background var(--transition-base);
+}
+.kh-btn-pill:hover { background: var(--color-green-hover); }
+
+/* Cards */
+.kh-card {
+  background: var(--color-bg-card);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-card);
+}
+.kh-card:hover { box-shadow: var(--shadow-card-hover); }
+
+/* Input */
+.kh-input {
+  width: 100%;
+  padding: 10px 14px;
+  border-radius: var(--radius-md);
+  border: 1.5px solid var(--color-border);
+  font: var(--text-body-sm);
+  color: var(--color-text-primary);
+  background: var(--color-bg-card);
+  transition: border-color var(--transition-fast);
+  outline: none;
+}
+.kh-input:focus { border-color: var(--color-green-light); }
+
+/* Badges */
+.kh-badge-discount {
+  background: var(--color-discount);
+  color: #fff;
+  border-radius: var(--radius-xs);
+  padding: 3px 10px;
+  font: var(--text-badge);
+}
+.kh-badge-success {
+  background: var(--color-success-bg);
+  color: var(--color-success);
+  border-radius: var(--radius-xs);
+  padding: 2px 8px;
+  font: var(--text-badge);
+}
+.kh-badge-warning {
+  background: var(--color-warning-bg);
+  color: var(--color-warning-text);
+  border-radius: var(--radius-xs);
+  padding: 3px 10px;
+  font: var(--text-badge);
+}
+.kh-badge-info {
+  background: var(--color-info-bg);
+  color: var(--color-info);
+  border-radius: var(--radius-xs);
+  padding: 3px 10px;
+  font: var(--text-badge);
+}
+.kh-badge-error {
+  background: var(--color-error-bg-badge);
+  color: var(--color-error);
+  border-radius: var(--radius-xs);
+  padding: 3px 10px;
+  font: var(--text-badge);
+}
+
+/* Image well */
+.kh-image-well {
+  background: linear-gradient(135deg, var(--color-bg-green-light), var(--color-bg-green-tint));
+  border-radius: var(--radius-xl);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Overline label */
+.kh-overline {
+  font: var(--text-overline);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--color-green-mid);
+}
+
+/* Price */
+.kh-price { font: var(--text-price-md); color: var(--color-green-deep); }
+.kh-price-strike { font: var(--text-body-sm); color: var(--color-text-ghost); text-decoration: line-through; }

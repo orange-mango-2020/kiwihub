@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html><head><meta charset="UTF-8">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Plus+Jakarta+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Plus Jakarta Sans', sans-serif; background: #e5e7eb; }
+  .bar { background:#1a4a2e; color:#c8f5d8; text-align:center; padding:7px 12px; font-size:12px; }
+  nav { background:#fff; box-shadow:0 2px 12px rgba(0,0,0,0.08); }
+  .inner { max-width:700px; margin:0 auto; padding:0 20px; display:flex; align-items:center; gap:14px; height:62px; }
+  .logo-wrap { display:flex; align-items:center; gap:7px; flex-shrink:0; }
+  .logo-mark { width:36px; height:36px; background:linear-gradient(135deg,#5cb85c,#1a4a2e); border-radius:10px; display:flex; align-items:center; justify-content:center; font-size:18px; }
+  .logo-name { font-family:'Syne',sans-serif; font-weight:800; font-size:17px; color:#1a4a2e; }
+  .search { flex:1; position:relative; }
+  .search input { width:100%; padding:9px 38px 9px 16px; border-radius:24px; border:2px solid #e8f5e9; background:#f7fdf8; font-size:13px; font-family:'Plus Jakarta Sans',sans-serif; color:#1a4a2e; outline:none; }
+  .search span { position:absolute; right:13px; top:50%; transform:translateY(-50%); font-size:14px; color:#40916c; }
+  .nav-links { display:flex; align-items:center; gap:16px; }
+  .nav-link { color:#374151; font-size:13px; font-weight:500; text-decoration:none; }
+  .cart-btn { background:#1a4a2e; color:#fff; border:none; border-radius:24px; padding:9px 16px; font-size:13px; font-family:'Plus Jakarta Sans',sans-serif; font-weight:600; display:flex; align-items:center; gap:5px; cursor:pointer; }
+  .cart-badge { background:#5cb85c; border-radius:10px; padding:1px 7px; font-size:11px; }
+</style>
+</head><body>
+  <div class="bar">🚚 FREE delivery on orders over R750 &nbsp;|&nbsp; 🔒 Secure payments via PayFast</div>
+  <nav>
+    <div class="inner">
+      <div class="logo-wrap">
+        <div class="logo-mark">🥝</div>
+        <div class="logo-name">KiwiHub</div>
+      </div>
+      <div class="search">
+        <input placeholder="Search products…" />
+        <span>🔍</span>
+      </div>
+      <div class="nav-links">
+        <a class="nav-link" href="#">👤 Account</a>
+        <button class="cart-btn">🛒 Cart <span class="cart-badge">3</span></button>
+      </div>
+    </div>
+  </nav>
+</body></html>
