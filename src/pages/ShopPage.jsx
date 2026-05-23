@@ -12,7 +12,7 @@ export default function ShopPage() {
   const [activeCat, setActiveCat] = useState('All');
   const [sort, setSort] = useState('featured');
   const [search, setSearch] = useState('');
-  const [priceMax, setPriceMax] = useState(15000);
+  const [priceMax, setPriceMax] = useState(14000);
   const [filtersOpen, setFiltersOpen] = useState(false);
   const { isMobile } = useWindowSize();
 
@@ -56,13 +56,13 @@ export default function ShopPage() {
         <div style={{ fontFamily: fonts.heading, fontWeight: 700, fontSize: '13px', color: colors.deep, marginBottom: '12px' }}>Max Price</div>
         <div style={{ fontFamily: fonts.heading, fontWeight: 800, fontSize: '16px', color: colors.deep, marginBottom: '8px' }}>R{priceMax.toLocaleString()}</div>
         <input
-          type="range" min={200} max={15000} step={500} value={priceMax}
+          type="range" min={100} max={14000} step={200} value={priceMax}
           onChange={e => setPriceMax(Number(e.target.value))}
           style={{ width: '100%', accentColor: colors.deep }}
         />
         <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '4px' }}>
-          <span style={{ fontFamily: fonts.body, fontSize: '10px', color: colors.ghost }}>R200</span>
-          <span style={{ fontFamily: fonts.body, fontSize: '10px', color: colors.ghost }}>R15,000</span>
+          <span style={{ fontFamily: fonts.body, fontSize: '10px', color: colors.ghost }}>R100</span>
+          <span style={{ fontFamily: fonts.body, fontSize: '10px', color: colors.ghost }}>R14,000</span>
         </div>
       </div>
     </div>

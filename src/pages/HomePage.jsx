@@ -6,10 +6,10 @@ import { PRODUCTS } from '../data/products';
 import { useWindowSize } from '../hooks/useWindowSize';
 
 const CATS = [
-  { label: 'Laptops',           emoji: '💻', bg: 'linear-gradient(135deg,#1a4a2e,#2e8b57)', cat: 'Laptops' },
-  { label: 'PC Accessories',    emoji: '⌨️', bg: 'linear-gradient(135deg,#1a2a4a,#2e578b)', cat: 'PC Accessories' },
-  { label: 'Phone Accessories', emoji: '📱', bg: 'linear-gradient(135deg,#2a1a4a,#6b2e8b)', cat: 'Phone Accessories' },
-  { label: 'Homewear',          emoji: '🛋️', bg: 'linear-gradient(135deg,#4a3a1a,#8b6e2e)', cat: 'Homewear' },
+  { label: 'Laptops',        emoji: '💻', bg: 'linear-gradient(135deg,#1a4a2e,#2e8b57)', cat: 'Laptops' },
+  { label: 'Desktops',       emoji: '🖥️', bg: 'linear-gradient(135deg,#1a2a4a,#2e578b)', cat: 'Desktops' },
+  { label: 'Gaming PCs',     emoji: '🎮', bg: 'linear-gradient(135deg,#3a0a3a,#8b2e8b)', cat: 'Gaming PCs' },
+  { label: 'PC Accessories', emoji: '⌨️', bg: 'linear-gradient(135deg,#2a2a1a,#8b7e2e)', cat: 'PC Accessories' },
 ];
 
 const TRUST = [

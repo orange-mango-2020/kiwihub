@@ -5,10 +5,10 @@ import { useWindowSize } from '../../hooks/useWindowSize';
 
 const LINKS = {
   Shop: [
-    { label: 'Laptops',           to: '/shop?cat=Laptops' },
-    { label: 'PC Accessories',    to: '/shop?cat=PC+Accessories' },
-    { label: 'Phone Accessories', to: '/shop?cat=Phone+Accessories' },
-    { label: 'Homewear',          to: '/shop?cat=Homewear' },
+    { label: 'Laptops',        to: '/shop?cat=Laptops' },
+    { label: 'Desktops',       to: '/shop?cat=Desktops' },
+    { label: 'Gaming PCs',     to: '/shop?cat=Gaming+PCs' },
+    { label: 'PC Accessories', to: '/shop?cat=PC+Accessories' },
   ],
   Help: [
     { label: 'FAQs',           to: '/faqs' },
