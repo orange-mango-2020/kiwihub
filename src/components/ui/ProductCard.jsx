@@ -108,9 +108,9 @@ export default function ProductCard({ product }) {
           onClick={handleAdd}
           style={{
             width: '100%',
-            background: added ? colors.success : colors.light,
-            color: added ? '#fff' : colors.deep,
-            border: `2px solid ${added ? colors.success : colors.mint}`,
+            background: added ? colors.success : colors.deep,
+            color: '#fff',
+            border: 'none',
             borderRadius: radius.sm,
             padding: '8px',
             fontFamily: fonts.heading,
@@ -124,7 +124,7 @@ export default function ProductCard({ product }) {
             transition: `all ${transition.base}`,
           }}
         >
-          <Icon name={added ? 'check' : 'plus'} size={12} color={added ? '#fff' : colors.deep} />
+          <Icon name={added ? 'check' : 'plus'} size={12} color="#fff" />
           {added ? 'Added!' : 'Add to Cart'}
         </button>
       </div>
