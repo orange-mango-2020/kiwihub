@@ -8,6 +8,8 @@ import HomePage from './pages/HomePage';
 import ShopPage from './pages/ShopPage';
 import ProductPage from './pages/ProductPage';
 import CartPage from './pages/CartPage';
+import CheckoutPage from './pages/CheckoutPage';
+import OrderConfirmedPage from './pages/OrderConfirmedPage';
 import AccountPage from './pages/AccountPage';
 import AboutPage from './pages/AboutPage';
 import ContactPage from './pages/ContactPage';
@@ -23,7 +25,7 @@ function ScrollToTop() {
 
 export default function App() {
   return (
-    <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', background: '#f4f1e8' }}>
+    <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', background: '#ffffff' }}>
       <ScrollToTop />
       <AnnouncementBar />
       <Navbar />
@@ -33,6 +35,8 @@ export default function App() {
           <Route path="/shop" element={<ShopPage />} />
           <Route path="/product/:id" element={<ProductPage />} />
           <Route path="/cart" element={<CartPage />} />
+          <Route path="/checkout" element={<CheckoutPage />} />
+          <Route path="/order-confirmed" element={<OrderConfirmedPage />} />
           <Route path="/account" element={<AccountPage />} />
           <Route path="/about" element={<AboutPage />} />
           <Route path="/contact" element={<ContactPage />} />

@@ -1,28 +1,31 @@
-import { createContext, useContext, useState, useCallback } from 'react';
+import { createContext, useContext, useState, useCallback, useEffect } from 'react';
 
 const CartContext = createContext(null);
+const CART_KEY = 'kiwihub_cart';
 
 export function CartProvider({ children }) {
-  const [items, setItems] = useState([]);
+  const [items, setItems] = useState(() => {
+    try { return JSON.parse(localStorage.getItem(CART_KEY) || '[]'); }
+    catch { return []; }
+  });
+
+  useEffect(() => {
+    try { localStorage.setItem(CART_KEY, JSON.stringify(items)); }
+    catch {}
+  }, [items]);
 
   const addItem = useCallback((product, qty = 1) => {
     setItems(prev => {
       const existing = prev.find(i => i.id === product.id);
-      if (existing) {
-        return prev.map(i => i.id === product.id ? { ...i, qty: i.qty + qty } : i);
-      }
+      if (existing) return prev.map(i => i.id === product.id ? { ...i, qty: i.qty + qty } : i);
       return [...prev, { ...product, qty }];
     });
   }, []);
 
-  const removeItem = useCallback((id) => {
-    setItems(prev => prev.filter(i => i.id !== id));
-  }, []);
+  const removeItem = useCallback((id) => setItems(prev => prev.filter(i => i.id !== id)), []);
 
   const updateQty = useCallback((id, delta) => {
-    setItems(prev =>
-      prev.map(i => i.id === id ? { ...i, qty: Math.max(1, i.qty + delta) } : i)
-    );
+    setItems(prev => prev.map(i => i.id === id ? { ...i, qty: Math.max(1, i.qty + delta) } : i));
   }, []);
 
   const clearCart = useCallback(() => setItems([]), []);
@@ -33,10 +36,7 @@ export function CartProvider({ children }) {
   const total    = subtotal + delivery;
 
   return (
-    <CartContext.Provider value={{
-      items, count, subtotal, delivery, total,
-      addItem, removeItem, updateQty, clearCart,
-    }}>
+    <CartContext.Provider value={{ items, count, subtotal, delivery, total, addItem, removeItem, updateQty, clearCart }}>
       {children}
     </CartContext.Provider>
   );

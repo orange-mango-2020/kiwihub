@@ -16,10 +16,29 @@ export default function ContactPage() {
 
   const set = k => e => setForm(f => ({ ...f, [k]: e.target.value }));
 
-  const submit = () => {
+  const submit = async () => {
     if (!form.name || !form.email || !form.message) return;
     setSending(true);
-    setTimeout(() => { setSending(false); setSent(true); }, 1400);
+    const key = import.meta.env.VITE_WEB3FORMS_KEY;
+    if (key) {
+      try {
+        await fetch('https://api.web3forms.com/submit', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+          body: JSON.stringify({
+            access_key: key,
+            from_name: 'KiwiHub Contact Form',
+            subject: form.subject || 'New contact message from KiwiHub',
+            name: form.name,
+            email: form.email,
+            topic: form.subject,
+            message: form.message,
+          }),
+        });
+      } catch {}
+    }
+    setSending(false);
+    setSent(true);
   };
 
   const inputStyle = {

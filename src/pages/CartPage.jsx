@@ -171,7 +171,11 @@ export default function CartPage() {
               <span style={{ fontFamily: fonts.heading, fontWeight: 800, fontSize: '22px', color: colors.deep }}>R{finalTotal.toLocaleString()}</span>
             </div>
             <button
-              onClick={() => navigate('/account')}
+              onClick={() => {
+                if (couponApplied) sessionStorage.setItem('kiwihub_coupon', 'KIWI10');
+                else sessionStorage.removeItem('kiwihub_coupon');
+                navigate('/checkout');
+              }}
               style={{ width: '100%', background: colors.deep, color: 'white', border: 'none', borderRadius: radius.lg, padding: '15px', fontSize: '15px', fontWeight: 700, cursor: 'pointer', fontFamily: fonts.heading, marginBottom: '10px', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px' }}
             >
               Proceed to Checkout <Icon name="arrow-right" size={16} color="#fff" />
