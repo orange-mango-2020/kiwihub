@@ -5,7 +5,7 @@ export const colors = {
   hover:   '#1f5c38',
   gold:    '#c8971f',
   goldBg:  '#fdf6e3',
-  bg:      '#f4f1e8',
+  bg:      '#ffffff',
   card:    '#ffffff',
   light:   '#f0faf2',
   tint:    '#e8f5e9',

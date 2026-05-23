@@ -40,7 +40,7 @@ export default function ProductCard({ product }) {
     >
       {/* Image well */}
       <div style={{
-        background: `linear-gradient(135deg, ${colors.light}, ${colors.tint})`,
+        background: '#f8f9fa',
         height: '150px',
         display: 'flex',
         alignItems: 'center',

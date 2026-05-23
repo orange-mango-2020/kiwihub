@@ -78,8 +78,10 @@ export default function CartPage() {
           {/* Cart items */}
           {items.map(item => (
             <div key={item.id} style={{ background: 'white', borderRadius: '16px', padding: isMobile ? '14px' : '18px', display: 'flex', gap: '12px', boxShadow: shadow.card, alignItems: 'flex-start' }}>
-              <div style={{ background: `linear-gradient(135deg, ${colors.light}, ${colors.tint})`, borderRadius: radius.lg, width: isMobile ? '70px' : '90px', height: isMobile ? '70px' : '90px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: isMobile ? '30px' : '40px', flexShrink: 0 }}>
-                {item.image}
+              <div style={{ background: '#f8f9fa', borderRadius: radius.lg, width: isMobile ? '70px' : '90px', height: isMobile ? '70px' : '90px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: isMobile ? '30px' : '40px', flexShrink: 0, overflow: 'hidden' }}>
+                {item.image?.startsWith('http') ? (
+                  <img src={item.image} alt={item.name} style={{ width: '100%', height: '100%', objectFit: 'contain', padding: '6px' }} onError={e => { e.currentTarget.style.display = 'none'; }} />
+                ) : item.image}
               </div>
               <div style={{ flex: 1, minWidth: 0 }}>
                 <div style={{ fontSize: '9px', color: colors.mid, fontFamily: fonts.body, fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.5px', marginBottom: '2px' }}>

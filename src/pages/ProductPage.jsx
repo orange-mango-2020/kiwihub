@@ -69,7 +69,7 @@ export default function ProductPage() {
       <div style={{ display: 'flex', flexDirection: isMobile ? 'column' : 'row', gap: isMobile ? '20px' : '32px', marginBottom: '28px' }}>
         {/* Image */}
         <div style={{ flex: 1 }}>
-          <div style={{ background: `linear-gradient(135deg, ${colors.light}, ${colors.tint})`, borderRadius: '20px', height: isMobile ? '260px' : '360px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: isMobile ? '100px' : '140px', position: 'relative', overflow: 'hidden' }}>
+          <div style={{ background: '#f8f9fa', borderRadius: '20px', height: isMobile ? '260px' : '360px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: isMobile ? '100px' : '140px', position: 'relative', overflow: 'hidden' }}>
             {product.badge && (
               <div style={{ position: 'absolute', top: '16px', left: '16px', zIndex: 1 }}>
                 <Badge variant="hot">{product.badge}</Badge>
