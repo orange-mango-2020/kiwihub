@@ -3,9 +3,11 @@ import { useNavigate } from 'react-router-dom';
 import { colors, fonts, radius, shadow } from '../theme';
 import Icon from '../components/ui/Icon';
 import { FAQ_SECTIONS } from '../data/faqs';
+import { useWindowSize } from '../hooks/useWindowSize';
 
 export default function FaqsPage() {
   const navigate = useNavigate();
+  const { isMobile } = useWindowSize();
   const [openSection, setOpenSection] = useState('delivery');
   const [openItem, setOpenItem] = useState(null);
   const [search, setSearch] = useState('');
@@ -19,12 +21,12 @@ export default function FaqsPage() {
   return (
     <div>
       {/* Hero */}
-      <div style={{ background: `linear-gradient(135deg, ${colors.deep}, ${colors.mid})`, color: '#fff', padding: '52px 24px', textAlign: 'center' }}>
+      <div style={{ background: `linear-gradient(135deg, ${colors.deep}, ${colors.mid})`, color: '#fff', padding: isMobile ? '40px 20px' : '52px 24px', textAlign: 'center' }}>
         <div style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', width: '52px', height: '52px', background: 'rgba(255,255,255,0.15)', borderRadius: '14px', marginBottom: '16px' }}>
           <Icon name="help-circle" size={26} color="#fff" />
         </div>
-        <h1 style={{ fontFamily: fonts.heading, fontWeight: 800, fontSize: '36px', marginBottom: '10px' }}>Frequently Asked Questions</h1>
-        <p style={{ fontFamily: fonts.body, fontSize: '15px', opacity: 0.85, maxWidth: '500px', margin: '0 auto 24px' }}>
+        <h1 style={{ fontFamily: fonts.heading, fontWeight: 800, fontSize: isMobile ? '26px' : '36px', marginBottom: '10px' }}>Frequently Asked Questions</h1>
+        <p style={{ fontFamily: fonts.body, fontSize: '14px', opacity: 0.85, maxWidth: '500px', margin: '0 auto 20px' }}>
           Can't find your answer?{' '}
           <span style={{ textDecoration: 'underline', cursor: 'pointer' }} onClick={() => navigate('/contact')}>Contact our team</span>
         </p>
@@ -41,9 +43,9 @@ export default function FaqsPage() {
         </div>
       </div>
 
-      <div style={{ maxWidth: '900px', margin: '0 auto', padding: '40px 24px 64px', display: 'flex', gap: '28px', alignItems: 'flex-start' }}>
-        {/* Sidebar nav */}
-        {!search && (
+      <div style={{ maxWidth: '900px', margin: '0 auto', padding: isMobile ? '24px 16px 48px' : '40px 24px 64px', display: 'flex', gap: '28px', alignItems: 'flex-start' }}>
+        {/* Sidebar nav — desktop only, no search active */}
+        {!search && !isMobile && (
           <div style={{ width: '200px', flexShrink: 0 }}>
             <div style={{ background: 'white', borderRadius: '14px', padding: '8px', boxShadow: shadow.card, position: 'sticky', top: '80px' }}>
               {FAQ_SECTIONS.map(s => (
@@ -61,8 +63,29 @@ export default function FaqsPage() {
           </div>
         )}
 
+        {/* Mobile: category chips */}
+        {!search && isMobile && (
+          <div style={{ display: 'none' }} />
+        )}
+
         {/* Accordion */}
         <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: '20px' }}>
+          {/* Mobile category chips */}
+          {!search && isMobile && (
+            <div style={{ display: 'flex', gap: '8px', overflowX: 'auto', paddingBottom: '4px', marginBottom: '-4px' }}>
+              {FAQ_SECTIONS.map(s => (
+                <button
+                  key={s.id}
+                  onClick={() => setOpenSection(s.id)}
+                  style={{ display: 'flex', alignItems: 'center', gap: '6px', padding: '8px 14px', borderRadius: '20px', border: 'none', background: openSection === s.id ? colors.deep : 'white', color: openSection === s.id ? '#fff' : colors.textSec, fontFamily: fonts.body, fontSize: '12px', fontWeight: 600, cursor: 'pointer', flexShrink: 0, boxShadow: shadow.card }}
+                >
+                  <Icon name={s.icon} size={13} color={openSection === s.id ? '#fff' : colors.muted} />
+                  {s.title.split(' ')[0]}
+                </button>
+              ))}
+            </div>
+          )}
+
           {filtered.map(section => (
             <div key={section.id}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '12px' }}>

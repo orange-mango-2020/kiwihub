@@ -3,10 +3,12 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
 import { colors, fonts, radius, shadow } from '../theme';
 import Icon from '../components/ui/Icon';
+import { useWindowSize } from '../hooks/useWindowSize';
 
 export default function CartPage() {
   const { items, subtotal, delivery, total, count, removeItem, updateQty } = useCart();
   const navigate = useNavigate();
+  const { isMobile } = useWindowSize();
   const [coupon, setCoupon] = useState('');
   const [couponApplied, setCouponApplied] = useState(false);
   const [couponError, setCouponError] = useState(false);
@@ -16,13 +18,13 @@ export default function CartPage() {
 
   if (items.length === 0) {
     return (
-      <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '24px 24px 48px' }}>
+      <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '24px 16px 48px' }}>
         <div style={{ fontFamily: fonts.body, fontSize: '12px', color: colors.muted, marginBottom: '16px', display: 'flex', alignItems: 'center', gap: '6px' }}>
           <Link to="/" style={{ color: colors.mid, textDecoration: 'none' }}>Home</Link>
           <Icon name="chevron-right" size={12} color={colors.ghost} />
           <span style={{ color: colors.deep, fontWeight: 600 }}>My Cart</span>
         </div>
-        <div style={{ textAlign: 'center', padding: '80px 24px', background: 'white', borderRadius: '18px', boxShadow: shadow.card }}>
+        <div style={{ textAlign: 'center', padding: isMobile ? '48px 20px' : '80px 24px', background: 'white', borderRadius: '18px', boxShadow: shadow.card }}>
           <div style={{ width: '80px', height: '80px', background: colors.light, borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 16px' }}>
             <Icon name="cart" size={36} color={colors.mint} />
           </div>
@@ -40,18 +42,18 @@ export default function CartPage() {
   }
 
   return (
-    <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '24px 24px 48px' }}>
+    <div style={{ maxWidth: '1200px', margin: '0 auto', padding: isMobile ? '16px 16px 40px' : '24px 24px 48px' }}>
       <div style={{ fontFamily: fonts.body, fontSize: '12px', color: colors.muted, marginBottom: '16px', display: 'flex', alignItems: 'center', gap: '6px' }}>
         <Link to="/" style={{ color: colors.mid, textDecoration: 'none' }}>Home</Link>
         <Icon name="chevron-right" size={12} color={colors.ghost} />
         <span style={{ color: colors.deep, fontWeight: 600 }}>My Cart</span>
       </div>
 
-      <div style={{ display: 'flex', gap: '20px', alignItems: 'flex-start' }}>
+      <div style={{ display: 'flex', flexDirection: isMobile ? 'column' : 'row', gap: '20px', alignItems: 'flex-start' }}>
         {/* Items */}
         <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: '12px' }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-            <h1 style={{ fontFamily: fonts.heading, fontWeight: 800, fontSize: '24px', color: colors.deep }}>
+            <h1 style={{ fontFamily: fonts.heading, fontWeight: 800, fontSize: isMobile ? '20px' : '24px', color: colors.deep }}>
               My Cart <span style={{ fontSize: '14px', fontWeight: 500, color: colors.muted }}>({count} items)</span>
             </h1>
           </div>
@@ -75,26 +77,26 @@ export default function CartPage() {
 
           {/* Cart items */}
           {items.map(item => (
-            <div key={item.id} style={{ background: 'white', borderRadius: '16px', padding: '18px', display: 'flex', gap: '14px', boxShadow: shadow.card, alignItems: 'flex-start' }}>
-              <div style={{ background: `linear-gradient(135deg, ${colors.light}, ${colors.tint})`, borderRadius: radius.lg, width: '90px', height: '90px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '40px', flexShrink: 0 }}>
+            <div key={item.id} style={{ background: 'white', borderRadius: '16px', padding: isMobile ? '14px' : '18px', display: 'flex', gap: '12px', boxShadow: shadow.card, alignItems: 'flex-start' }}>
+              <div style={{ background: `linear-gradient(135deg, ${colors.light}, ${colors.tint})`, borderRadius: radius.lg, width: isMobile ? '70px' : '90px', height: isMobile ? '70px' : '90px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: isMobile ? '30px' : '40px', flexShrink: 0 }}>
                 {item.image}
               </div>
-              <div style={{ flex: 1 }}>
+              <div style={{ flex: 1, minWidth: 0 }}>
                 <div style={{ fontSize: '9px', color: colors.mid, fontFamily: fonts.body, fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.5px', marginBottom: '2px' }}>
                   {item.brand} · {item.category}
                 </div>
-                <div style={{ fontFamily: fonts.heading, fontWeight: 700, fontSize: '15px', color: colors.text, marginBottom: '8px' }}>{item.name}</div>
+                <div style={{ fontFamily: fonts.heading, fontWeight: 700, fontSize: isMobile ? '13px' : '15px', color: colors.text, marginBottom: '8px', lineHeight: 1.3 }}>{item.name}</div>
                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '8px' }}>
                   <div style={{ display: 'flex', alignItems: 'center', background: '#f7f5f0', borderRadius: radius.sm, border: `1.5px solid ${colors.border}` }}>
-                    <button onClick={() => updateQty(item.id, -1)} style={{ background: 'none', border: 'none', width: '34px', height: '34px', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                      <Icon name="minus" size={14} color={colors.textSec} />
+                    <button onClick={() => updateQty(item.id, -1)} style={{ background: 'none', border: 'none', width: '32px', height: '32px', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                      <Icon name="minus" size={13} color={colors.textSec} />
                     </button>
-                    <span style={{ padding: '0 12px', fontFamily: fonts.heading, fontWeight: 700, fontSize: '14px', color: colors.deep }}>{item.qty}</span>
-                    <button onClick={() => updateQty(item.id, 1)} style={{ background: 'none', border: 'none', width: '34px', height: '34px', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                      <Icon name="plus" size={14} color={colors.textSec} />
+                    <span style={{ padding: '0 10px', fontFamily: fonts.heading, fontWeight: 700, fontSize: '13px', color: colors.deep }}>{item.qty}</span>
+                    <button onClick={() => updateQty(item.id, 1)} style={{ background: 'none', border: 'none', width: '32px', height: '32px', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                      <Icon name="plus" size={13} color={colors.textSec} />
                     </button>
                   </div>
-                  <span style={{ fontFamily: fonts.heading, fontWeight: 800, fontSize: '16px', color: colors.deep }}>R{(item.price * item.qty).toLocaleString()}</span>
+                  <span style={{ fontFamily: fonts.heading, fontWeight: 800, fontSize: isMobile ? '14px' : '16px', color: colors.deep }}>R{(item.price * item.qty).toLocaleString()}</span>
                   <button onClick={() => removeItem(item.id)} style={{ background: 'none', border: 'none', color: colors.ghost, fontSize: '12px', fontFamily: fonts.body, fontWeight: 600, cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '4px' }}>
                     <Icon name="trash-2" size={13} color={colors.ghost} /> Remove
                   </button>
@@ -105,14 +107,14 @@ export default function CartPage() {
 
           <button
             onClick={() => navigate('/shop')}
-            style={{ background: 'white', color: colors.deep, border: `2px solid ${colors.border}`, borderRadius: radius.lg, padding: '12px 20px', fontSize: '13px', fontWeight: 700, cursor: 'pointer', fontFamily: fonts.heading, width: 'fit-content', display: 'flex', alignItems: 'center', gap: '6px' }}
+            style={{ background: 'white', color: colors.deep, border: `2px solid ${colors.border}`, borderRadius: radius.lg, padding: '11px 18px', fontSize: '13px', fontWeight: 700, cursor: 'pointer', fontFamily: fonts.heading, width: 'fit-content', display: 'flex', alignItems: 'center', gap: '6px' }}
           >
             <Icon name="arrow-left" size={14} color={colors.deep} /> Continue Shopping
           </button>
         </div>
 
         {/* Order summary */}
-        <div style={{ width: '320px', display: 'flex', flexDirection: 'column', gap: '14px' }}>
+        <div style={{ width: isMobile ? '100%' : '320px', flexShrink: 0, display: 'flex', flexDirection: 'column', gap: '14px' }}>
           {/* Coupon */}
           <div style={{ background: 'white', borderRadius: '16px', padding: '18px', boxShadow: shadow.card }}>
             <div style={{ fontFamily: fonts.heading, fontWeight: 700, fontSize: '14px', color: colors.deep, marginBottom: '10px', display: 'flex', alignItems: 'center', gap: '6px' }}>

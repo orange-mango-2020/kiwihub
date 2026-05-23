@@ -7,6 +7,7 @@ import Stars from '../components/ui/Stars';
 import Badge from '../components/ui/Badge';
 import ProductCard from '../components/ui/ProductCard';
 import { getProductById, getRelated } from '../data/products';
+import { useWindowSize } from '../hooks/useWindowSize';
 
 const REVIEWS = [
   { name: 'Sipho M.',   rating: 5, date: '12 Mar 2026', verified: true,  comment: 'Excellent! Arrived in 2 days via Courier Guy. Very fast, great screen. Highly recommend KiwiHub.' },
@@ -20,6 +21,7 @@ export default function ProductPage() {
   const navigate = useNavigate();
   const { addItem } = useCart();
   const product = getProductById(id);
+  const { isMobile } = useWindowSize();
 
   const [selectedColor, setSelectedColor] = useState(0);
   const [qty, setQty] = useState(1);
@@ -52,9 +54,9 @@ export default function ProductPage() {
   };
 
   return (
-    <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '24px 24px 48px' }}>
+    <div style={{ maxWidth: '1200px', margin: '0 auto', padding: isMobile ? '16px 16px 40px' : '24px 24px 48px' }}>
       {/* Breadcrumb */}
-      <div style={{ fontFamily: fonts.body, fontSize: '12px', color: colors.muted, marginBottom: '20px', display: 'flex', alignItems: 'center', gap: '6px', flexWrap: 'wrap' }}>
+      <div style={{ fontFamily: fonts.body, fontSize: '12px', color: colors.muted, marginBottom: '16px', display: 'flex', alignItems: 'center', gap: '6px', flexWrap: 'wrap' }}>
         <Link to="/" style={{ color: colors.mid, textDecoration: 'none' }}>Home</Link>
         <Icon name="chevron-right" size={12} color={colors.ghost} />
         <Link to="/shop" style={{ color: colors.mid, textDecoration: 'none' }}>Shop</Link>
@@ -64,10 +66,10 @@ export default function ProductPage() {
         <span style={{ color: colors.deep, fontWeight: 600 }}>{product.name}</span>
       </div>
 
-      <div style={{ display: 'flex', gap: '32px', marginBottom: '36px' }}>
+      <div style={{ display: 'flex', flexDirection: isMobile ? 'column' : 'row', gap: isMobile ? '20px' : '32px', marginBottom: '28px' }}>
         {/* Image */}
         <div style={{ flex: 1 }}>
-          <div style={{ background: `linear-gradient(135deg, ${colors.light}, ${colors.tint})`, borderRadius: '20px', height: '360px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '140px', position: 'relative' }}>
+          <div style={{ background: `linear-gradient(135deg, ${colors.light}, ${colors.tint})`, borderRadius: '20px', height: isMobile ? '260px' : '360px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: isMobile ? '100px' : '140px', position: 'relative' }}>
             {product.badge && (
               <div style={{ position: 'absolute', top: '16px', left: '16px' }}>
                 <Badge variant="hot">{product.badge}</Badge>
@@ -79,20 +81,22 @@ export default function ProductPage() {
             >
               <Icon name={wishlisted ? 'heart-filled' : 'heart'} size={20} color={wishlisted ? '#ef4444' : colors.ghost} />
             </button>
-            <button style={{ position: 'absolute', top: '66px', right: '16px', background: 'white', border: 'none', borderRadius: '50%', width: '42px', height: '42px', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', boxShadow: '0 2px 10px rgba(0,0,0,0.1)' }}>
-              <Icon name="share" size={18} color={colors.ghost} />
-            </button>
+            {!isMobile && (
+              <button style={{ position: 'absolute', top: '66px', right: '16px', background: 'white', border: 'none', borderRadius: '50%', width: '42px', height: '42px', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', boxShadow: '0 2px 10px rgba(0,0,0,0.1)' }}>
+                <Icon name="share" size={18} color={colors.ghost} />
+              </button>
+            )}
             {product.image}
           </div>
         </div>
 
         {/* Info */}
-        <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: '16px' }}>
+        <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: '14px' }}>
           <div>
             <div style={{ fontSize: '11px', color: colors.mid, fontFamily: fonts.body, fontWeight: 600, textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '6px' }}>
               {product.brand} · {product.category}
             </div>
-            <h1 style={{ fontFamily: fonts.heading, fontWeight: 800, fontSize: '28px', color: colors.text, lineHeight: 1.2 }}>{product.name}</h1>
+            <h1 style={{ fontFamily: fonts.heading, fontWeight: 800, fontSize: isMobile ? '22px' : '28px', color: colors.text, lineHeight: 1.2 }}>{product.name}</h1>
           </div>
 
           <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap' }}>
@@ -105,9 +109,9 @@ export default function ProductPage() {
           </div>
 
           {/* Price */}
-          <div style={{ background: colors.light, borderRadius: radius.xl, padding: '16px' }}>
+          <div style={{ background: colors.light, borderRadius: radius.xl, padding: '14px 16px' }}>
             <div style={{ display: 'flex', alignItems: 'baseline', gap: '10px', flexWrap: 'wrap' }}>
-              <span style={{ fontFamily: fonts.heading, fontWeight: 800, fontSize: '34px', color: colors.deep }}>R{product.price.toLocaleString()}</span>
+              <span style={{ fontFamily: fonts.heading, fontWeight: 800, fontSize: isMobile ? '28px' : '34px', color: colors.deep }}>R{product.price.toLocaleString()}</span>
               {product.originalPrice && (
                 <span style={{ fontFamily: fonts.body, fontSize: '16px', color: colors.ghost, textDecoration: 'line-through' }}>R{product.originalPrice.toLocaleString()}</span>
               )}
@@ -155,7 +159,7 @@ export default function ProductPage() {
           </div>
 
           {/* CTAs */}
-          <div style={{ display: 'flex', gap: '10px' }}>
+          <div style={{ display: 'flex', gap: '10px', flexDirection: isMobile ? 'column' : 'row' }}>
             <button
               onClick={handleAdd}
               style={{ flex: 1, background: added ? '#16a34a' : colors.deep, color: 'white', border: 'none', borderRadius: radius.lg, padding: '14px 24px', fontSize: '14px', fontWeight: 700, cursor: 'pointer', fontFamily: fonts.heading, transition: 'all 0.2s', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px' }}
@@ -193,13 +197,13 @@ export default function ProductPage() {
       </div>
 
       {/* Tabs */}
-      <div style={{ background: 'white', borderRadius: '18px', padding: '28px 32px', marginBottom: '28px', boxShadow: shadow.card }}>
-        <div style={{ display: 'flex', borderBottom: '2px solid #f0f0f0', marginBottom: '24px' }}>
+      <div style={{ background: 'white', borderRadius: '18px', padding: isMobile ? '20px 16px' : '28px 32px', marginBottom: '24px', boxShadow: shadow.card }}>
+        <div style={{ display: 'flex', borderBottom: '2px solid #f0f0f0', marginBottom: '20px', overflowX: 'auto' }}>
           {['description', 'specs', 'reviews'].map(tab => (
             <button
               key={tab}
               onClick={() => setActiveTab(tab)}
-              style={{ background: 'none', border: 'none', padding: '12px 24px', fontSize: '13px', fontWeight: 700, fontFamily: fonts.heading, cursor: 'pointer', color: activeTab === tab ? colors.deep : colors.muted, borderBottom: activeTab === tab ? `2.5px solid ${colors.deep}` : '2.5px solid transparent', marginBottom: '-2px', transition: 'color 0.15s', textTransform: 'capitalize' }}
+              style={{ background: 'none', border: 'none', padding: isMobile ? '10px 16px' : '12px 24px', fontSize: '13px', fontWeight: 700, fontFamily: fonts.heading, cursor: 'pointer', color: activeTab === tab ? colors.deep : colors.muted, borderBottom: activeTab === tab ? `2.5px solid ${colors.deep}` : '2.5px solid transparent', marginBottom: '-2px', transition: 'color 0.15s', textTransform: 'capitalize', whiteSpace: 'nowrap' }}
             >
               {tab === 'reviews' ? `Reviews (${product.reviews})` : tab.charAt(0).toUpperCase() + tab.slice(1)}
             </button>
@@ -214,7 +218,7 @@ export default function ProductPage() {
             {product.highlights && (
               <>
                 <div style={{ fontFamily: fonts.heading, fontWeight: 700, fontSize: '14px', color: colors.deep, marginBottom: '12px' }}>Key Highlights</div>
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px' }}>
+                <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '1fr 1fr', gap: '8px' }}>
                   {product.highlights.map(h => (
                     <div key={h} style={{ display: 'flex', alignItems: 'center', gap: '10px', padding: '10px 12px', background: colors.light, borderRadius: radius.md }}>
                       <Icon name="check" size={14} color="#16a34a" />
@@ -228,7 +232,7 @@ export default function ProductPage() {
         )}
 
         {activeTab === 'specs' && product.specs && (
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '1fr 1fr', gap: '0' }}>
             {product.specs.map((s, i) => (
               <div key={s.label} style={{ display: 'flex', padding: '12px 0', borderBottom: '1px solid #f7f5f0', gap: '16px' }}>
                 <div style={{ fontFamily: fonts.body, fontSize: '13px', fontWeight: 600, color: colors.muted, minWidth: '110px' }}>{s.label}</div>
@@ -265,7 +269,7 @@ export default function ProductPage() {
       {related.length > 0 && (
         <div>
           <h2 style={{ fontFamily: fonts.heading, fontWeight: 800, fontSize: '20px', color: colors.deep, marginBottom: '14px' }}>You Might Also Like</h2>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', gap: '14px' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: isMobile ? 'repeat(2,1fr)' : 'repeat(4,1fr)', gap: isMobile ? '12px' : '14px' }}>
             {related.map(rp => <ProductCard key={rp.id} product={rp} />)}
           </div>
         </div>
