@@ -1,0 +1,13 @@
+{
+  "name": "kiwihub-scraper",
+  "version": "1.0.0",
+  "description": "Product scraper for KiwiHub",
+  "main": "scrape.js",
+  "scripts": {
+    "scrape": "node scrape.js"
+  },
+  "dependencies": {
+    "axios": "^1.6.0",
+    "cheerio": "^1.0.0"
+  }
+}
