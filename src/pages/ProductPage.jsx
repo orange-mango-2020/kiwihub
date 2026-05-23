@@ -69,24 +69,33 @@ export default function ProductPage() {
       <div style={{ display: 'flex', flexDirection: isMobile ? 'column' : 'row', gap: isMobile ? '20px' : '32px', marginBottom: '28px' }}>
         {/* Image */}
         <div style={{ flex: 1 }}>
-          <div style={{ background: `linear-gradient(135deg, ${colors.light}, ${colors.tint})`, borderRadius: '20px', height: isMobile ? '260px' : '360px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: isMobile ? '100px' : '140px', position: 'relative' }}>
+          <div style={{ background: `linear-gradient(135deg, ${colors.light}, ${colors.tint})`, borderRadius: '20px', height: isMobile ? '260px' : '360px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: isMobile ? '100px' : '140px', position: 'relative', overflow: 'hidden' }}>
             {product.badge && (
-              <div style={{ position: 'absolute', top: '16px', left: '16px' }}>
+              <div style={{ position: 'absolute', top: '16px', left: '16px', zIndex: 1 }}>
                 <Badge variant="hot">{product.badge}</Badge>
               </div>
             )}
             <button
               onClick={() => setWishlisted(w => !w)}
-              style={{ position: 'absolute', top: '16px', right: '16px', background: 'white', border: 'none', borderRadius: '50%', width: '42px', height: '42px', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', boxShadow: '0 2px 10px rgba(0,0,0,0.1)' }}
+              style={{ position: 'absolute', top: '16px', right: '16px', zIndex: 1, background: 'white', border: 'none', borderRadius: '50%', width: '42px', height: '42px', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', boxShadow: '0 2px 10px rgba(0,0,0,0.1)' }}
             >
               <Icon name={wishlisted ? 'heart-filled' : 'heart'} size={20} color={wishlisted ? '#ef4444' : colors.ghost} />
             </button>
             {!isMobile && (
-              <button style={{ position: 'absolute', top: '66px', right: '16px', background: 'white', border: 'none', borderRadius: '50%', width: '42px', height: '42px', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', boxShadow: '0 2px 10px rgba(0,0,0,0.1)' }}>
+              <button style={{ position: 'absolute', top: '66px', right: '16px', zIndex: 1, background: 'white', border: 'none', borderRadius: '50%', width: '42px', height: '42px', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', boxShadow: '0 2px 10px rgba(0,0,0,0.1)' }}>
                 <Icon name="share" size={18} color={colors.ghost} />
               </button>
             )}
-            {product.image}
+            {product.image?.startsWith('http') ? (
+              <img
+                src={product.image}
+                alt={product.name}
+                style={{ width: '100%', height: '100%', objectFit: 'contain', padding: '24px' }}
+                onError={e => { e.currentTarget.style.display = 'none'; }}
+              />
+            ) : (
+              product.image
+            )}
           </div>
         </div>
 

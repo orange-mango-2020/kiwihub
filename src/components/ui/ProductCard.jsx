@@ -47,8 +47,18 @@ export default function ProductCard({ product }) {
         justifyContent: 'center',
         fontSize: '60px',
         position: 'relative',
+        overflow: 'hidden',
       }}>
-        {product.image}
+        {product.image?.startsWith('http') ? (
+          <img
+            src={product.image}
+            alt={product.name}
+            style={{ width: '100%', height: '100%', objectFit: 'contain', padding: '10px' }}
+            onError={e => { e.currentTarget.style.display = 'none'; }}
+          />
+        ) : (
+          product.image
+        )}
         <div style={{ position: 'absolute', top: '10px', left: '10px', display: 'flex', gap: '5px' }}>
           {product.badge && <Badge variant="hot">{product.badge}</Badge>}
         </div>
