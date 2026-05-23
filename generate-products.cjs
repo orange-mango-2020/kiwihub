@@ -54,7 +54,22 @@ function getCategory(type) {
 function applyGP(cents, type) {
   const r = cents / 100;
   const gp = { gaming: 0.20, laptop: 0.25, desktop: 0.25, ssd: 0.30, accessory: 0.35 }[type] || 0.35;
-  return Math.ceil(r / (1 - gp));
+  return prettyPrice(Math.ceil(r / (1 - gp)));
+}
+
+// Round up to nearest retail price (ends in 9, 99, 499, 999, etc.)
+function prettyPrice(price) {
+  let step;
+  if      (price <   100) step =   10;
+  else if (price <  1000) step =   50;
+  else if (price <  5000) step =  100;
+  else if (price < 10000) step =  500;
+  else                    step = 1000;
+
+  const base = Math.ceil(price / step) * step;
+  const candidate = base - 1;
+  // ensure we never go below the raw price
+  return candidate >= price ? candidate : base - 1 + step;
 }
 
 // ── Brand extraction ──────────────────────────────────────────────────────────
