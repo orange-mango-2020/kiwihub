@@ -14,7 +14,16 @@ export default function OrderConfirmedPage() {
   useEffect(() => {
     const raw = sessionStorage.getItem('kiwihub_pending_order');
     if (raw) {
-      try { setOrder(JSON.parse(raw)); } catch {}
+      try {
+        const parsed = JSON.parse(raw);
+        setOrder(parsed);
+        // Fire-and-forget — don't block the confirmation page on email success
+        fetch('/api/send-order-email', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(parsed),
+        }).catch(() => {});
+      } catch {}
       sessionStorage.removeItem('kiwihub_pending_order');
       sessionStorage.removeItem('kiwihub_coupon');
     }
