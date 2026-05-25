@@ -11,7 +11,6 @@ export function submitPayFastPayment({ order, coupon }) {
   const merchantId  = import.meta.env.VITE_PAYFAST_MERCHANT_ID  || '10000100';
   const merchantKey = import.meta.env.VITE_PAYFAST_MERCHANT_KEY || '46f0cd694581a';
   const passphrase  = import.meta.env.VITE_PAYFAST_PASSPHRASE   || '';
-  const notifyUrl   = import.meta.env.VITE_PAYFAST_NOTIFY_URL   || '';
   const origin      = window.location.origin;
 
   // Defined in the order PayFast expects them — order matters for signature
@@ -20,7 +19,7 @@ export function submitPayFastPayment({ order, coupon }) {
     merchant_key:         merchantKey,
     return_url:           `${origin}/order-confirmed`,
     cancel_url:           `${origin}/cart`,
-    ...(notifyUrl ? { notify_url: notifyUrl } : {}),
+    notify_url:           `${origin}/api/payfast-notify`,
     name_first:           order.customer.firstName,
     name_last:            order.customer.lastName,
     email_address:        order.customer.email,
